@@ -28,10 +28,29 @@
     margin: auto;
 }
 
-.btn-info {
-    display: flow-root;
+.pagination  {
+    display: flex;
+    justify-content: space-between;
+    width: 18rem;
     margin: auto;
-    width: 9rem;
-    margin-bottom: 3rem;
-    padding: 0.7rem;
+    margin-bottom: 2rem;
+}
+
+.pagination2 {
+    justify-content: center;
+}
+
+.next {
+    width: 130px;
+}
+
+.dropdown-menu {
+    height: 20rem;
+    width: 13.5rem;
+    overflow: auto;
+}
+
+.dropdown-genre {
+    display: flex;
+    justify-content: center;
 }
