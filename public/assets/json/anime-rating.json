@@ -1,0 +1,18 @@
+{
+    "0": {
+      "id": "g",
+      "name": "All Ages"
+    },
+    "1": {
+      "id": "pg",
+      "name": "Children"
+    },
+    "2": {
+      "id": "pg13",
+      "name": "Teens 13 or older"
+    },
+    "3": {
+      "id": "r17",
+      "name": "17+ recommended"
+    }
+}

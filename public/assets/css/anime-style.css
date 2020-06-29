@@ -2,6 +2,15 @@ body {
     padding: 3rem;
 }
 
+.rating {
+    margin-bottom: 2rem;
+    justify-content: center;
+}
+
+.genre {
+    margin-bottom: 2rem;
+}
+
 .wrapper {
     display: flex;
     flex-flow: wrap;
@@ -28,8 +37,21 @@ body {
 .pagination  {
     display: flex;
     justify-content: space-between;
+    width: 18rem;
+    margin: auto;
 }
 
 .pagination2 {
     justify-content: center;
 }
+
+.next {
+    width: 130px;
+}
+
+.dropdown-menu {
+    height: 20rem;
+    width: 13rem;
+    overflow: auto;
+}
+
