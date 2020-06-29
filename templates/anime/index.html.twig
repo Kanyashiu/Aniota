@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="wrapper">
+    
+    {% for anime in animes %}
+
+        <div class="card" style="width: 18rem;">
+            <img src="{{ anime['image_url']}}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{ anime['title']}}</h5>
+                
+                {% if anime['synopsis'] == null %}
+                    <p>There is no description for this anime</p>
+                {% else %}
+                    <p class="card-text">{{ anime['synopsis']}}</p>
+                {% endif %}
+                
+                <a href="#" class="btn btn-primary">Details</a>
+            </div>
+        </div>
+
+    {% endfor %}
+</div>
+
+<div class="pagination {{ page > 1 ? '' : 'pagination2' }}">
+    {% if page > "1" %}
+        <a href="#" class="btn btn-info">Previous Page</a>
+    {% endif %}
+    <a href="#" class="btn btn-info">Page Suivante</a>
+</div>
+
+
+{% endblock %}
