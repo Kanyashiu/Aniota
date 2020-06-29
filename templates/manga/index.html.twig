@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<h1 class="titleMangas">List of Mangas</h1>
+<div class="wrapper">
+    {% for manga in mangas %}
+
+        <div class="card" style="width: 18rem;">
+            <img src="{{ manga['image_url']}}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{ manga['title']}}</h5>
+                {% if manga['synopsis'] == null %}
+                    <p>There is no description for this manga</p>
+                {% else %}
+                    <p class="card-text">{{ manga['synopsis']}}</p>
+                {% endif %}
+                <a href="#" class="btn btn-primary">Details</a>
+            </div>
+        </div>
+
+    {% endfor %}
+</div>
+
+{% if page > "1" %}
+    <a href="#" class="btn btn-info">Previous Page</a>
+{% endif %}
+
+<a href="#" class="btn btn-info">Next Page</a>
+
+
+{% endblock %}

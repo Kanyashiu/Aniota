@@ -1,0 +1,37 @@
+.wrapper {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+    padding: 3rem;
+}
+
+.titleMangas {
+    text-align: center;
+    color: royalblue;
+    margin-top: 2rem;
+}
+
+.card {
+    margin: 2rem;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: space-between;
+}
+
+.card-img-top {
+    height: 18rem;
+    margin: auto;
+}
+
+.btn-info {
+    display: flow-root;
+    margin: auto;
+    width: 9rem;
+    margin-bottom: 3rem;
+    padding: 0.7rem;
+}
