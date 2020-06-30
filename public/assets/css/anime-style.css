@@ -2,14 +2,32 @@ body {
     padding: 3rem;
 }
 
+.dropdown-menu {
+    height: 20rem;
+    width: 11.85rem;
+    overflow: auto;
+}
+
 .rating {
     margin-bottom: 2rem;
+    margin-right: 1rem;
     justify-content: center;
+}
+
+.rating .dropdown-menu {
+    height: auto;
+    width: 11.85rem;
+    overflow: auto;
 }
 
 .genre {
     margin-bottom: 2rem;
 }
+
+.dropdowns {
+    display: flex;
+}
+
 
 .wrapper {
     display: flex;
@@ -17,9 +35,15 @@ body {
     justify-content: space-between;
 }
 
+.wrapper2 {
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
 .card {
     margin: 0 0 2rem 0;
 }
+
 
 .card-img-top {
     height: 18rem;
@@ -48,10 +72,3 @@ body {
 .next {
     width: 130px;
 }
-
-.dropdown-menu {
-    height: 20rem;
-    width: 13rem;
-    overflow: auto;
-}
-

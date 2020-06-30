@@ -7,55 +7,66 @@
 
 {% block body %}
 
-<div class="dropdown rating">
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Select Anime Rating
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" href="{{ path('anime', {'rated': 'g'} )}}">All Ages</a>
-    <a class="dropdown-item" href="{{ path('anime', {'rated': 'pg'} )}}">Children</a>
-    <a class="dropdown-item" href="{{ path('anime', {'rated': 'pg13'} )}}">Teens 13 or older</a>
-    <a class="dropdown-item" href="{{ path('anime', {'rated': 'r17'} )}}">17+ recommended</a>
-    {# This rating are base on MyAnimeList Rating https://myanimelist.net/info.php?go=mpaa #}
+<div class="dropdowns">
+
+  <div class="dropdown rating">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Select Anime Rating
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      {% for anime in animeRating %}
+          <a class="dropdown-item" href="{{ path('anime', {'rated': anime.id} )}}">{{ anime.name }}</a>
+      {% endfor %}
+      {# This rating are base on MyAnimeList Rating https://myanimelist.net/info.php?go=mpaa #}
+    </div>
   </div>
+
+  <div class="dropdown genre">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Select Anime Genre
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      {% for anime in animeGenre %}
+          <a class="dropdown-item" href="{{ path('anime', {'genre': anime.id} )}}">{{ anime.name }}</a>
+      {% endfor %}
+    </div>
+  </div>
+
 </div>
 
-<div class="dropdown genre">
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Select Anime Genre
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" href="{{ path('anime', {'genre': '1'} )}}">Action</a>
-  </div>
-</div>
-
-<div class="wrapper">
+<div class="wrapper {{ animes is empty ? 'wrapper2' : '' }}">
     
     {% for anime in animes %}
 
         <div class="card" style="width: 18rem;">
-            <img src="{{ anime['image_url']}}" class="card-img-top" alt="...">
+            <img src="{{ anime.image_url}}" class="card-img-top" alt="...">
             <div class="card-body">
-                <h5 class="card-title">{{ anime['title']}}</h5>
+                <h5 class="card-title">{{ anime.title}}</h5>
                 
-                {% if anime['synopsis'] == null %}
+                {% if anime.synopsis == null %}
                     <p>There is no description for this anime</p>
                 {% else %}
-                    <p class="card-text">{{ anime['synopsis']}}</p>
+                    <p class="card-text">{{ anime.synopsis}}</p>
                 {% endif %}
                 
-                <a href="#" class="btn btn-primary">Details</a>
+                <a href="{{ path('anime_details', { 'id': anime.mal_id} )}}" class="btn btn-primary">Details</a>
             </div>
         </div>
 
     {% endfor %}
+    
+    {% if animes is empty %}
+      <div class="empty-anime">
+       Sorry there are no anime for these categories
+      </div>
+    {% endif %}
 </div>
 
 <div class="pagination {{ page > 1 ? '' : 'pagination2' }}">
     {% if page > "1" %}
-        <a href="{{ path('anime', {'page': page - 1, 'rated': rated} )}}" class="btn btn-info previous">Previous Page</a>
+        <a href="{{ path('anime', {'page': page - 1, 'rated': rated, 'genre': genre} )}}" class="btn btn-info previous">Previous Page</a>
     {% endif %}
-        <a href="{{ path('anime', {'page': page + 1, 'rated': rated} )}}" class="btn btn-info next">Next Page</a>
+        <a href="{{ path('anime', {'page': page + 1, 'rated': rated, 'genre': genre} )}}" class="btn btn-info next">Next Page</a>
 </div>
 
 

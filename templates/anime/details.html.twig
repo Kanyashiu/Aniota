@@ -1,0 +1,152 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheet %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/anime-style.css') }}">
+{% endblock %}
+
+{% block body %}
+
+<pre>
+    {{ dump(anime) }}
+</pre>
+
+<h1>Info</h1>
+
+<img src="{{ anime.image_url }}" alt="{{ anime.title }}">
+
+<div>
+    <a href="{{ anime.url }}">MyAnimeList link</a>
+</div>
+
+<iframe width="420" height="315"
+src="{{ anime.trailer_url }}">
+</iframe>
+
+
+<div>
+    <p>Title : {{ anime.title }}</p>
+    <p>English Title : {{ anime.title_english }}</p>
+    <p>Japanese Title : {{ anime.title_japanese }}</p>
+</div>
+
+<div>
+   <p>Type : {{ anime.type }}</p>
+</div>
+
+<p>Source : {{ anime.source }}</p>
+<p>Number of episode : {{ anime.episodes }}</p>
+<p>Status : {{ anime.status }}</p>
+<p>Diffusion date :  {{ anime.aired.string }}</p>
+<p>Duration : {{ anime.duration }}</p>
+<p>Rating : {{ anime.rating }}</p>
+<p>Score : {{ anime.score }}</p>
+<p>Rank : {{ anime.rank }}</p>
+<p>Synopsis : {{ anime.synopsis }}</p>
+<p>Background : {{ anime.background }}</p>
+
+<div>
+    <h1>Genre</h1>
+    {% for genre in anime.genres %}
+        <li>
+            <p>Name : <a href="{{ path('anime', {'genre': genre.mal_id} )}}">{{ genre.name }}</a></p>
+        </li>
+    {% endfor %}
+
+</div>
+
+{% if anime.related is not empty %}
+
+    <h1>Related</h1>
+
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        {% for title, relate in anime.related %}
+            
+            {% set relateTitle = title|replace({' ': '-' }) %}
+            
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {{ loop.index == 1 ? 'active' : '' }}" 
+                    id="{{ relateTitle }}-tab" 
+                    data-toggle="tab" href="#{{ relateTitle }}" 
+                    role="tab" aria-controls="{{ relateTitle }}" 
+                    aria-selected="{{ loop.index == 1 ? 'true' : 'false' }}">
+                
+                {{ title }}
+                </a>
+            </li>
+        {% endfor %}
+    
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        {% for title, relate in anime.related %}
+
+            {% set relateTitle = title|replace({' ': '-' }) %}
+
+            <div class="tab-pane fade show {{ loop.index == 1 ? 'active' : '' }}" id="{{ relateTitle }}" role="tabpanel" aria-labelledby="{{ relateTitle }}-tab">
+                <ul>
+                    {% for item in relate %}
+                        
+                        <li>
+                            <p>Name : <a href="{{ item.url }}">{{ item.name }}</a></p>
+                            <p>type : {{ item.type }}</p>
+                            <a href="{{ path('anime_details', { 'id': item['mal_id']} )}}" class="btn btn-primary">Details</a>
+                        </li>
+                    
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endif %}
+
+
+<div>
+    <h1>People who work on {{ anime.title_english }}</h1>
+
+    <h3>Producer</h3>
+    {% for producer in anime.producers %}
+        <li>
+            <p>Name : <a href="{{ producer.url }}">{{ producer.name }}</a></p>
+        </li>
+    {% endfor %}
+    
+    <h3>Licensor</h3>
+    {% for licensor in anime.licensors %}
+        <li>
+            <p>Name : <a href="{{ licensor.url }}">{{ licensor.name }}</a></p>
+        </li>
+    {% endfor %}
+
+    <h3>Studios</h3>
+    {% for studio in anime.studios %}
+        <li>
+            <p>Name : <a href="{{ studio.url }}">{{ studio.name }}</a></p>
+        </li>
+    {% endfor %}
+
+
+
+
+</div>
+
+<div>
+    <h1>Theme on {{ anime.title_english }}</h1>
+
+    <h3>Opening</h3>
+    {% for op in anime.opening_themes %}
+        <li>
+            <p>Name : {{ op }}</p>
+        </li>
+    {% endfor %}
+    
+    <h3>Ending</h3>
+    {% for en in anime.opening_themes %}
+        <li>
+            <p>Name : {{ en }}</p>
+        </li>
+    {% endfor %}
+</div>
+
+
+{% endblock %}
