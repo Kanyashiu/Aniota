@@ -1,0 +1,148 @@
+{% extends 'base.html.twig' %}
+
+
+{% block stylesheet %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/manga-detail.css') }}">
+{% endblock %}
+
+{% block body %}
+
+{{dump(mangas)}}
+
+<div class="wrapper">
+
+<div class="presentationManga">
+    <div class="imgManga">
+        <img src="{{mangas.image_url}}" alt="">
+    </div>
+
+    <div class="d-inline">
+        <a href="{{ mangas.url }}" class="mangaTitle">{{ mangas.title}}</a>
+    </div>
+
+    <div class="d-inline">
+        <p>By</p>
+        {% if mangas.authors is empty %}
+            <p class="propertyParagraph">There is no Author for this manga</p>
+        {% else %}
+        <ul>
+            {% for authors in mangas.authors %}
+            <li><a href="{{ authors.url }}">{{ authors.name }}</a></li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+</div>
+
+
+<div class="d-inline">
+    <h2 class="titlePresentation">Synopsis</h2>
+    {% if mangas.synopsis is empty %}
+        <p class="propertyParagraph">There is no synopsis available for this manga</p>
+    {% else %}
+    <p>{{mangas.synopsis}}</p>
+    {% endif %}
+    
+</div>
+
+<div class="order">
+
+<div class="d-inline">
+    <h2>Genres</h2>
+    <ul>
+        {% for genres in mangas.genres %}
+            <li class="genreList">{{genres.name}}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="d-inline">
+    <h2>Status</h2>
+    <p class="propertyParagraph">{{ mangas.status }}</p>
+</div>
+
+<div class="d-inline">
+    <h2>Volumes</h2>
+    {% if mangas.volumes is empty %}
+        <p class="propertyParagraph">N/A</p>
+
+    {% else %}
+    <p class="propertyParagraph">{{ mangas.volumes }}</p>
+    {% endif %}
+    
+</div>
+
+<div class="d-inline">
+    <h2>Chapters</h2>
+    <p class="propertyParagraph">{{ mangas.chapters }}</p>
+</div>
+
+<div class="d-inline">
+    <h2>Published date</h2>
+    <p class="propertyParagraph">{{mangas.published.string}}</p>
+</div>
+
+<div class="d-inline">
+    <h2>Rank</h2>
+    <p class="propertyParagraph">{{mangas.rank}}</p>
+</div>
+
+<div class="d-inline">
+    <h2>Score</h2>
+    <p class="propertyParagraph">{{mangas.score}}</p>
+</div>
+
+<div class="d-inline">
+    <h2>Magazine</h2>
+    {% if mangas.serializations is empty %}
+        <p class="propertyParagraph">N/A</p>
+    {% else %}
+    <ul>
+        {% for magazine in mangas.serializations %}
+        <li><a href="{{magazine.url}}">{{magazine.name}}</a></li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+
+</div>
+
+<div class="d-inline">
+    <h2 class="titlePresentation">Background</h2>
+    {% if mangas.background is empty %}
+        <p class="propertyParagraph">There is no background available for this manga</p>
+    {% else %}
+        <p>{{ mangas.background }}</p>
+    {% endif %}
+    
+</div>
+
+{# {{dump(mangas.authors.0.name)}} #}
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    {% for title, related in mangas.related %}
+    {% set relatedTitle = title|replace({' ': '-'}) %}
+  <li class="nav-item" role="presentation">
+    <a class="nav-link {{ loop.index == 1 ? 'active' : ''}}" id="{{relatedTitle}}-tab" data-toggle="tab" href="#{{relatedTitle}}" role="tab" aria-controls="{{relatedTitle}}" aria-selected="{{loop.index == 1 ? 'true' : 'false'}}">{{title}}</a>
+  </li>
+    {% endfor %}
+</ul>
+<div class="tab-content" id="myTabContent">
+    {% for title, related in mangas.related %}
+    {% set relatedTitle = title|replace({' ': '-'}) %}
+        <div class="tab-pane fade show {{loop.index == 1 ? 'active' : ''}}" id="{{relatedTitle}}" role="tabpanel" aria-labelledby="{{relatedTitle}}-tab">
+            <ul>
+                {% for item in related %}
+                    <li class="tabsList">Name : <a href="{{item.url}}">{{ item.name }}</a></li>
+                    <li class="tabsList">Type : {{ item.type }}</li>
+                    <a href="{{ path('manga_details', {'id': item['mal_id']} )}}" class="btn btn-primary">Details</a>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+</div>
+
+<a href="{{path('manga')}}" class="btn btn-info">Retour à l'accueil</a>
+
+</div>
+{% endblock %}

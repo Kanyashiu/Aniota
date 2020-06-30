@@ -10,12 +10,13 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class MangaController extends AbstractController
 {
     /**
-     * @Route("/manga", name="manga")
+     * @Route("/manga", name="manga", methods={"GET"})
      */
     public function browse(HttpClientInterface $httpClient, Request $request)
     {
         $page = $request->query->get('page');
-        //dd($page);
+        
+        $jsonGenre = json_decode(file_get_contents("assets/json/manga-genre.json"), true);
 
         if (isset($_GET['page']) && !empty($_GET['page'])) {
             $page = $_GET['page'];
@@ -31,7 +32,14 @@ class MangaController extends AbstractController
             $genre = '0';
         }
 
-        $response = $httpClient->request('GET', 'https://api.jikan.moe/v3/search/manga?order_by=title&type=manga&page=' . $page . '&genre=' . $genre . '');
+        if (isset($_GET['sort']) && !empty($_GET['sort'])) {
+            $sort = $_GET['sort'];
+        }
+        else {
+            $sort = 'ASC';
+        }
+
+        $response = $httpClient->request('GET', 'https://api.jikan.moe/v3/search/manga?order_by=title&type=manga&page=' . $page . '&genre=' . $genre . '&sort=' . $sort . '');
         //dd($response);
 
         $content = $response->getContent();
@@ -43,6 +51,24 @@ class MangaController extends AbstractController
         return $this->render('manga/index.html.twig', [
             'mangas' => $results,
             'page' => $page,
+            'jsonGenre' => $jsonGenre
+        ]);
+    }
+
+    /**
+     * @Route("/manga/{id}", name="manga_details", methods={"GET"})
+     */
+    public function list(HttpClientInterface $httpClient, $id)
+    {
+        $response = $httpClient->request('GET', 'https://api.jikan.moe/v3/manga/' . $id . '');
+        //dd($response);
+
+        $mangas = $response->getContent();
+        $mangas = $response->toArray();
+        //dd($mangas);
+
+        return $this->render('manga/details.html.twig', [
+            'mangas' => $mangas
         ]);
     }
 }

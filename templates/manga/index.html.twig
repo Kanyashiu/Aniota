@@ -9,57 +9,34 @@
 {% block body %}
 
 <h1 class="titleMangas">List of Mangas</h1>
+<div class="dropdowns">
 
-<div class="dropdown-genre">
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Select Manga By Genre
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '1'} )}}">Action</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '2'} )}}">Adventure</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '3'} )}}">Cars</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '4'} )}}">Comedy</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '5'} )}}">Dementia</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '6'} )}}">Demons</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '7'} )}}">Mystery</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '8'} )}}">Drama</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '10'} )}}">Fantasy</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '11'} )}}">Game</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '13'} )}}">Historical</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '14'} )}}">Horror</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '15'} )}}">Kids</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '16'} )}}">Magic</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '17'} )}}">Martial Arts</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '18'} )}}">Mecha</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '19'} )}}">Music</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '20'} )}}">Parody</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '21'} )}}">Samurai</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '22'} )}}">Romance</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '23'} )}}">School</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '24'} )}}">Sci Fi</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '25'} )}}">Shoujo</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '26'} )}}">Shoujo Ai</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '27'} )}}">Shounen</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '28'} )}}">Shounen Ai</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '29'} )}}">Space</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '30'} )}}">Sports</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '31'} )}}">Super Power</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '32'} )}}">Vampire</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '35'} )}}">Harem</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '36'} )}}">Slice Of Life</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '37'} )}}">Supernatural</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '38'} )}}">Military</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '39'} )}}">Police</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '40'} )}}">Psychological</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '41'} )}}">Seinen</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '44'} )}}">Gender Bender</a>
-    <a class="dropdown-item" href="{{ path('manga', {'genre': '45'} )}}">Thriller</a>
-  </div>
+    <div class="dropdown-genre">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Select Manga By Genre
+    </button>
+    <div class="dropdown-menu genre-menu" aria-labelledby="dropdownMenuButton">
+        {% for json in jsonGenre %}
+            <a class="dropdown-item" href="{{ path('manga', {'genre': json['id']} )}}">{{ json['name'] }}</a>
+        {% endfor %}
+    </div>
+    </div>
+
+    <div class="dropdown-sort">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Select Manga By Order
+    </button>
+    <div class="dropdown-menu sort-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="{{ path('manga', {'sort': 'asc'} )}}">Ascending</a>
+        <a class="dropdown-item" href="{{ path('manga', {'sort': 'desc'} )}}">Descending</a>
+    </div>
+    </div>
+
 </div>
 
 <div class="wrapper">
     {% for manga in mangas %}
-
+        {# {{dump(manga)}} #}
         <div class="card" style="width: 18rem;">
             <img src="{{ manga['image_url']}}" class="card-img-top" alt="...">
             <div class="card-body">
@@ -69,7 +46,7 @@
                 {% else %}
                     <p class="card-text">{{ manga['synopsis']}}</p>
                 {% endif %}
-                <a href="#" class="btn btn-primary">Details</a>
+                <a href="{{path('manga_details', {'id': manga['mal_id']})}}" class="btn btn-primary">Details</a>
             </div>
         </div>
 
