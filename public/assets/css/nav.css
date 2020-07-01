@@ -1,3 +1,8 @@
+body {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.3rem;
+}
+
 .onNav {
     color: white!important;
 }
