@@ -78,6 +78,8 @@ class YouShallNotPass
 
                 throw new \Exception('Error 404 Détails', 404);
             }
+
+            return $dataArray;
     }
 
     public function contentControlExistingDataAnime($dataArray, $dataToFind) {
