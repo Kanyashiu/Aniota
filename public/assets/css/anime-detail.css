@@ -1,0 +1,120 @@
+body {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.3rem;
+}
+
+.title {
+    text-align: center;
+}
+
+li {
+    list-style: none;
+}
+
+.wrapper {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+    padding: 3rem;
+}
+
+.title-link {
+    font-size: 4rem;
+}
+
+.english,
+.japanese {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+iframe {
+    margin: 1rem 0 2rem 0;
+}
+
+.synopsis {
+    margin-bottom: 2rem;
+}
+
+.info-anime {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: space-around;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    background-color: #4b488436;
+    border-radius: 1rem;
+    padding: 2rem;
+}
+
+.info-anime p,
+.info-anime li {
+    text-align: center;
+}
+
+.background {
+    margin: 2rem 0 2rem 0;
+}
+
+
+.ul-tabs {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+}
+
+.btn-info {
+    display: block;
+    margin: auto;
+    width: 130px;
+}
+
+.li-tabs {
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.li-tabs a {
+    margin: 0 auto 0 auto;
+}
+
+.tab-content p {
+    margin-bottom: 0.5rem;
+}
+
+.people {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.people h3 {
+    margin-top: 2rem;
+}
+
+.theme {
+    text-align: center;
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.theme div h3 {
+    margin-bottom: 2rem;
+}
+
+.theme div {
+    background-color: #4b488436;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+}
+
+.btn-primary {
+    margin-top: 1rem;
+    width: 7rem;
+}

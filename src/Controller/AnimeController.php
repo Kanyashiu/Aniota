@@ -106,6 +106,7 @@ class AnimeController extends AbstractController
         $anime = $response->toArray();
 
         //! Condition pour rejeter certain manga if + throw ?
+        //! Idée possible récuperer l'id des manga que l'ont ne veut pas et les mettre dans un fichier pour procéder à un controle service YouShallNotPass ?
 
         return $this->render('anime/details.html.twig', [
             'anime' => $anime
