@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Aniota{% endblock %}</title>
         {% block stylesheet %}
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
             <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
@@ -25,12 +25,27 @@
                 <li class="nav-item">
                     <a class="nav-link onNav" href="#">Animes</a>
                 </li>
-                <li class="nav-item sign">
-                    <a class="nav-link onNav" href="{{path('register')}}">Sign In</a>
-                </li>
-                <li class="nav-item connexion">
-                    <a class="nav-link onNav" href="{{path('app_login')}}">Connexion</a>
-                </li>
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success">
+                        {{message}}
+                    </div>
+                {% endfor %}
+                {% if app.user is null %}
+                    <li class="nav-item sign">
+                        <a class="nav-link onNav" href="{{path('register')}}">Sign Up</a>
+                    </li>
+                    <li class="nav-item connexion">
+                        <a class="nav-link onNav" href="{{path('app_login')}}">Login</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item connexion">
+                        <a class="nav-link onNav" href="">Profile</a>
+                    </li>
+                    <li class="nav-item sign">
+                        <a class="nav-link onNav" href="{{path('app_logout')}}">Logout</a>
+                    </li>
+                {% endif %}
+                
             </ul>
             <form class="form-inline">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">

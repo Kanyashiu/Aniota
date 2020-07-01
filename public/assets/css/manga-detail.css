@@ -47,6 +47,8 @@ ul {
 
 .nav-tabs {
     margin: 2rem 0;
+    display: flex;
+    justify-content: center;
 }
 
 .tabsList {
@@ -56,11 +58,11 @@ ul {
 .ulTabs {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .divTabs {
-    margin-right: 4rem;
-    margin-bottom: 4rem;
+    margin-bottom: 7rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

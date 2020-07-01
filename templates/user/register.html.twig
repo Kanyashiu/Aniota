@@ -1,9 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserController!{% endblock %}
+{% block title %}Registration - {{ parent() }}{% endblock %}
+
+{% block stylesheet %} 
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/register.css') }}">
+{% endblock %}
 
 {% block body %}
 
+<h2 class="registrationTitle">Welcome to the registration area</h2>
  {{form(form)}}
 
 {% endblock %}

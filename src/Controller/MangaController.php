@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -58,7 +59,7 @@ class MangaController extends AbstractController
     /**
      * @Route("/manga/{id}", name="manga_details", methods={"GET"})
      */
-    public function list(HttpClientInterface $httpClient, $id)
+    public function details(HttpClientInterface $httpClient, $id)
     {
         $response = $httpClient->request('GET', 'https://api.jikan.moe/v3/manga/' . $id . '');
         //dd($response);
@@ -68,7 +69,7 @@ class MangaController extends AbstractController
         //dd($mangas);
 
         return $this->render('manga/details.html.twig', [
-            'mangas' => $mangas
+            'mangas' => $mangas,
         ]);
     }
 }
