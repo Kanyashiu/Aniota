@@ -2,12 +2,19 @@
 
 namespace App\Controller;
 
+use App\Services\YouShallNotPass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AnimeController extends AbstractController
 {
+    private $youShallNotPass;
+
+    public function __construct(YouShallNotPass $youShallNotPass)
+    {
+        $this->youShallNotPass = $youShallNotPass;
+    }
     /**
      * @Route("/anime", name="anime", methods={"GET"})
      */
@@ -27,24 +34,8 @@ class AnimeController extends AbstractController
         if (isset( $_GET['rated']) && !empty( $_GET['rated'])) {
             $rating = $_GET['rated'];
             
-            //! A mettre dans un service
-            // Vérification pour supprimer des notation ( controle plus fin )
-            $count = 0;
-            foreach ( $animeRating as $data ) {
-                $result = array_search($rating, $data);
-                
-                $count++;
-
-                if ( $result != false ) {
-                    // Le break permet d'éviter que le if plus bas se déclenche
-                    break;
-                }
-
-                if ( count($animeRating) == $count )
-                {
-                    throw new \Exception('Erreur 404 Rating', 404);
-                }
-            }
+            //! Service
+            $this->youShallNotPass->browseControl($animeRating, $rating);
             //!============================
 
             $response = $client->request('GET', 'https://api.jikan.moe/v3/search/anime?rated=' . $rating . '&page=' . $page . '');
@@ -53,24 +44,8 @@ class AnimeController extends AbstractController
             
             $genre = $_GET['genre'];
 
-            //! A mettre dans un service
-            // Vérification pour supprimer des notation ( controle plus fin )
-            $count = 0;
-            foreach ( $animeGenre as $data ) {
-                $result = array_search($genre, $data);
-                
-                $count++;
-
-                if ( $result != false ) {
-                    // Le break permet d'éviter que le if plus bas se déclenche
-                    break;
-                }
-
-                if ( count($animeGenre) == $count )
-                {
-                    throw new \Exception('Erreur 404 Rating', 404);
-                }
-            }
+            //! Service
+            $this->youShallNotPass->browseControl($animeGenre, $genre);
             //!============================
             
             $response = $client->request('GET', 'https://api.jikan.moe/v3/search/anime?genre=' . $genre . '&page=' . $page . '');
@@ -84,6 +59,10 @@ class AnimeController extends AbstractController
         // $statusCode = $response->getStatusCode();
         
         $animes = $response->toArray();
+
+        //! Service
+        $animes = $this->youShallNotPass->contentControlBrowse($animes);
+        //!============================
 
         return $this->render('anime/index.html.twig', [
             'animes' => $animes['results'],
@@ -100,10 +79,18 @@ class AnimeController extends AbstractController
      */
     public function details($id)
     {
+        //! Service
+        // Ce code permet d'éviter les spam qui provoquent l'erreur 429
+        $animeYSNP = json_decode(file_get_contents("assets/json/anime-YSNP.json"), true);
+        $this->youShallNotPass->contentControlExistingDataAnime($animeYSNP, $id);
+        //! ========
+
         $client = HttpClient::create();
         $response = $client->request('GET', 'https://api.jikan.moe/v3/anime/' . $id . '');
 
         $anime = $response->toArray();
+
+        $anime = $this->youShallNotPass->contentControlDetails($anime);
 
         //! Condition pour rejeter certain manga if + throw ?
         //! Idée possible récuperer l'id des manga que l'ont ne veut pas et les mettre dans un fichier pour procéder à un controle service YouShallNotPass ?
