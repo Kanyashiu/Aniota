@@ -6,11 +6,64 @@
         {% block stylesheet %}
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
             <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+<<<<<<< HEAD
         {% endblock %}
     </head>
     <body>
         {% block body %}{% endblock %}
         {% block javascript %}
+=======
+            <link rel="stylesheet" href="{{ asset('assets/css/nav.css') }}">
+        {% endblock %}
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link onNav" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link onNav" href="{{path('manga')}}">Mangas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link onNav" href="#">Animes</a>
+                </li>
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success">
+                        {{message}}
+                    </div>
+                {% endfor %}
+                {% if app.user is null %}
+                    <li class="nav-item connexion">
+                        <a class="nav-link onNav" href="{{path('app_login')}}">Login</a>
+                    </li>
+                    <li class="nav-item sign">
+                        <a class="nav-link onNav" href="{{path('register')}}">Sign Up</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item connexion">
+                        <a class="nav-link onNav" href="">Profile</a>
+                    </li>
+                    <li class="nav-item sign">
+                        <a class="nav-link onNav" href="{{path('app_logout')}}">Logout</a>
+                    </li>
+                {% endif %}
+                
+            </ul>
+            <form class="form-inline">
+                <input class="form-control mr-sm-2" type="search" placeholder="Find your manga/anime..." aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+        </nav>
+        {% block body %}
+        {% endblock %}
+        {% block javascripts %}
+>>>>>>> origin/manga-jolan
             <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
             <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>

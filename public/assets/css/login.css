@@ -1,0 +1,26 @@
+.loginForm {
+    width: 50rem;
+    text-align: center;
+    margin: auto;
+}
+
+.inputLogin {
+    width: 50rem;
+    margin: auto;
+    margin-bottom: 1.5rem;
+}
+
+.loginTitle {
+    text-align: center;
+    padding: 3rem 0;
+    color: #0400ff87;
+}
+
+.loginBtn {
+    margin-top: 2rem;
+    width: 10rem;
+}
+
+.error-message {
+    margin-top: 2rem;
+}

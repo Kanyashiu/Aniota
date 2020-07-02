@@ -1,0 +1,31 @@
+body {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.3rem;
+}
+
+.onNav {
+    color: white!important;
+}
+
+.sign {
+    position: absolute;
+    right: 0;
+    margin-right: 18rem;
+}
+
+.connexion {
+    position: absolute;
+    right: 0;
+    margin-right: 23rem;
+}
+
+.form-inline {
+    position: absolute;
+    right: 0;
+    margin-right: 1rem;
+}
+
+.alert-success {
+    margin-bottom: 0;
+    margin-left: 32rem;
+}

@@ -1,0 +1,72 @@
+.wrapper {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+    padding: 3rem;
+}
+
+.titleMangas {
+    text-align: center;
+    color: royalblue;
+    margin-top: 2rem;
+}
+
+.card {
+    margin: 2rem;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: space-between;
+}
+
+.card-img-top {
+    height: 18rem;
+    margin: auto;
+}
+
+.pagination  {
+    display: flex;
+    justify-content: space-between;
+    width: 18rem;
+    margin: auto;
+    margin-bottom: 2rem;
+}
+
+.pagination2 {
+    justify-content: center;
+}
+
+.next {
+    width: 130px;
+}
+
+.dropdowns {
+    display: flex;
+    justify-content: space-around;
+}
+
+.genre-menu {
+    height: 20rem;
+    width: 11.2rem;
+    overflow: auto;
+}
+
+.dropdown-genre {
+    display: flex;
+    justify-content: center;
+}
+
+.sort-menu {
+    height: auto;
+    width: 11.1rem;
+    overflow: auto;
+}
+
+.dropdown-sort {
+    display: flex;
+    justify-content: center;
+}

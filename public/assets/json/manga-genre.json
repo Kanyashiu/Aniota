@@ -1,0 +1,162 @@
+{
+    "0": {
+      "id": 1,
+      "name": "Action"
+    },
+    "1": {
+      "id": 2,
+      "name": "Adventure"
+    },
+    "2": {
+      "id": 3,
+      "name": "Cars"
+    },
+    "3": {
+      "id": 4,
+      "name": "Comedy"
+    },
+    "4": {
+      "id": 5,
+      "name": "Dementia"
+    },
+    "5": {
+      "id": 6,
+      "name": "Demons"
+    },
+    "6": {
+      "id": 7,
+      "name": "Mystery"
+    },
+    "7": {
+      "id": 8,
+      "name": "Drama"
+    },
+    "8": {
+      "id": 10,
+      "name": "Fantasy"
+    },
+    "9": {
+      "id": 11,
+      "name": "Game"
+    },
+    "10": {
+      "id": 13,
+      "name": "Historical"
+    },
+    "11": {
+      "id": 14,
+      "name": "Horror"
+    },
+    "12": {
+      "id": 15,
+      "name": "Kids"
+    },
+    "13": {
+      "id": 16,
+      "name": "Magic"
+    },
+    "14": {
+      "id": 17,
+      "name": "Martial Arts"
+    },
+    "16": {
+      "id": 18,
+      "name": "Mecha"
+    },
+    "17": {
+      "id": 19,
+      "name": "Music"
+    },
+    "18": {
+      "id": 20,
+      "name": "Parody"
+    },
+    "19": {
+      "id": 21,
+      "name": "Samurai"
+    },
+    "20": {
+      "id": 22,
+      "name": "Romance"
+    },
+    "21": {
+      "id": 23,
+      "name": "School"
+    },
+    "22": {
+      "id": 24,
+      "name": "Sci Fi"
+    },
+    "23": {
+      "id": 25,
+      "name": "Shoujo"
+    },
+    "24": {
+      "id": 26,
+      "name": "Shoujo Ai"
+    },
+    "25": {
+      "id": 27,
+      "name": "Shounen"
+    },
+    "26": {
+      "id": 28,
+      "name": "Shounen Ai"
+    },
+    "27": {
+      "id": 29,
+      "name": "Space"
+    },
+    "28": {
+      "id": 30,
+      "name": "Sports"
+    },
+    "29": {
+      "id": 31,
+      "name": "Super Power"
+    },
+    "30": {
+      "id": 32,
+      "name": "Vampire"
+    },
+    "31": {
+      "id": 35,
+      "name": "Harem"
+    },
+    "32": {
+      "id": 36,
+      "name": "Slice Of Life"
+    },
+    "33": {
+      "id": 37,
+      "name": "Supernatural"
+    },
+    "34": {
+      "id": 38,
+      "name": "Military"
+    },
+    "35": {
+      "id": 39,
+      "name": "Police"
+    },
+    "36": {
+      "id": 40,
+      "name": "Psychological"
+    },
+    "37": {
+        "id": 41,
+        "name": "Seinen"
+    },
+    "38": {
+      "id": 42,
+      "name": "Josei"
+    },
+    "39": {
+      "id": 44,
+      "name": "Gender Bender"
+    },
+    "40": {
+      "id": 45,
+      "name": "Thriller"
+    }
+}
