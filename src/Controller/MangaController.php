@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Services\YouShallNotPass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,6 +11,13 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class MangaController extends AbstractController
 {
+
+    private $youShallNotPass;
+
+    public function __construct(YouShallNotPass $youShallNotPass)
+    {
+        $this->youShallNotPass = $youShallNotPass;
+    }
     /**
      * @Route("/manga", name="manga", methods={"GET"})
      */
@@ -17,7 +25,7 @@ class MangaController extends AbstractController
     {
         $page = $request->query->get('page');
         
-        $jsonGenre = json_decode(file_get_contents("assets/json/manga-genre.json"), true);
+        $mangaGenre = json_decode(file_get_contents("assets/json/manga-genre.json"), true);
 
         if (isset($_GET['page']) && !empty($_GET['page'])) {
             $page = $_GET['page'];
@@ -47,12 +55,12 @@ class MangaController extends AbstractController
         $content = $response->toArray();
 
         $results = $content['results'];
-        //dd($results);
+        dump($results);
 
         return $this->render('manga/index.html.twig', [
             'mangas' => $results,
             'page' => $page,
-            'jsonGenre' => $jsonGenre
+            'jsonGenre' => $mangaGenre
         ]);
     }
 
@@ -61,12 +69,23 @@ class MangaController extends AbstractController
      */
     public function details(HttpClientInterface $httpClient, $id)
     {
+        //! Service
+        // Ce code permet d'éviter les spam qui provoquent l'erreur 429
+        touch('assets/json/manga-YSNP.json');
+        $mangaYSNP = json_decode(file_get_contents("assets/json/manga-YSNP.json"), true);
+        $this->youShallNotPass->contentControlExistingDataManga($mangaYSNP, $id);
+        //! ========
+
+
         $response = $httpClient->request('GET', 'https://api.jikan.moe/v3/manga/' . $id . '');
-        //dd($response);
 
         $mangas = $response->getContent();
         $mangas = $response->toArray();
-        //dd($mangas);
+
+        //! Service
+        $mangaGenre = json_decode(file_get_contents("assets/json/manga-genre.json"), true);
+        $mangas = $this->youShallNotPass->contentControlDetailsManga($mangas, $mangaGenre);
+        //! ======
 
         return $this->render('manga/details.html.twig', [
             'mangas' => $mangas,

@@ -19,7 +19,7 @@ class YouShallNotPass
 
             if ( count($arrayUsedToVerify) == $this->count )
             {
-                throw new \Exception('Error 404 Browse', 404);
+                throw new \Exception('Error 404 Browse Anime', 404);
             }
         }
     }
@@ -76,13 +76,18 @@ class YouShallNotPass
                 // Écrit le résultat dans le fichier
                 file_put_contents($file, $currentEncode);
 
-                throw new \Exception('Error 404 Détails', 404);
+                throw new \Exception('Error 404 Détails Anime 1', 404);
             }
 
             return $dataArray;
     }
 
     public function contentControlExistingDataAnime($dataArray, $dataToFind) {
+
+        if (empty($dataArray))
+        {
+            return;
+        }
         
         foreach ($dataArray as $data)
         {
@@ -90,7 +95,73 @@ class YouShallNotPass
             
             if ( $result != false)
             {
-                throw new \Exception('Error 404 Détails', 404);
+                throw new \Exception('Error 404 Détails Anime 2', 404);
+            }
+        }
+    }
+
+    //! MANGA
+    public function contentControlDetailsManga($mangaToVerify, $dataArrayUsedToVerify) {
+        
+        // Boucle foreach qui permet de comparer les genre dans le manga demandé
+        // avec les genre autorisé dans notre fichier manga-genre.json
+        $tempArray = [];
+        foreach ($mangaToVerify['genres'] as $genre) {
+            
+            foreach ($dataArrayUsedToVerify as $genre2) {
+                $result = array_search($genre['name'], $genre2);
+                
+                if ($result != false) {
+                    $tempArray[] = $genre['name'];
+                }
+            }
+        }
+
+        if(count($mangaToVerify['genres']) != count($tempArray))
+        {   
+            //ecchi9-hentai10-Shoujo Ai26-Shounen Ai28-Yaoi33-Yuri34-Doujinshi43
+            $file = '../public/assets/json/manga-YSNP.json';
+
+            $current = file_get_contents($file);
+            
+            $currentDecode = json_decode($current, true);
+
+            $id = $mangaToVerify['mal_id'];
+            $title = $mangaToVerify['title'];
+
+            $content = [
+                'id' => $id,
+                'title' => $title,
+            ];
+
+            $currentDecode[] = $content;
+            
+            $currentDecode = (object) $currentDecode;
+
+            $currentEncode = json_encode($currentDecode);
+
+            file_put_contents($file, $currentEncode);
+
+            throw new \Exception('Error 404 Détails Manga 1', 404);
+        }
+
+        return $mangaToVerify;
+    }
+
+    public function contentControlExistingDataManga($dataArray, $dataToFind) {
+        
+        if (empty($dataArray))
+        {
+            return;
+        }
+        
+        foreach ($dataArray as $data)
+        {
+            $result = array_search($dataToFind, $data);
+            
+            if ( $result != false)
+            {
+                throw new \Exception('Error 404 Détails Manga 2', 404);
             }
         }
     }

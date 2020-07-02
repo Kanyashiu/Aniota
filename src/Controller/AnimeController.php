@@ -81,6 +81,7 @@ class AnimeController extends AbstractController
     {
         //! Service
         // Ce code permet d'éviter les spam qui provoquent l'erreur 429
+        touch('assets/json/anime-YSNP.json');
         $animeYSNP = json_decode(file_get_contents("assets/json/anime-YSNP.json"), true);
         $this->youShallNotPass->contentControlExistingDataAnime($animeYSNP, $id);
         //! ========
