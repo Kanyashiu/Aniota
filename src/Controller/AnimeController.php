@@ -35,7 +35,7 @@ class AnimeController extends AbstractController
             $rating = $_GET['rated'];
             
             //! Service
-            $this->youShallNotPass->browseControl($animeRating, $rating);
+            $this->youShallNotPass->typeControlBrowse($animeRating, $rating);
             //!============================
 
             $response = $client->request('GET', 'https://api.jikan.moe/v3/search/anime?rated=' . $rating . '&page=' . $page . '');
@@ -45,7 +45,7 @@ class AnimeController extends AbstractController
             $genre = $_GET['genre'];
 
             //! Service
-            $this->youShallNotPass->browseControl($animeGenre, $genre);
+            $this->youShallNotPass->typeControlBrowse($animeGenre, $genre);
             //!============================
             
             $response = $client->request('GET', 'https://api.jikan.moe/v3/search/anime?genre=' . $genre . '&page=' . $page . '');
@@ -61,7 +61,7 @@ class AnimeController extends AbstractController
         $animes = $response->toArray();
 
         //! Service
-        $animes = $this->youShallNotPass->contentControlBrowse($animes);
+        $animes = $this->youShallNotPass->contentControlBrowseAnime($animes);
         //!============================
 
         return $this->render('anime/index.html.twig', [
@@ -91,7 +91,7 @@ class AnimeController extends AbstractController
         $anime = $response->toArray();
 
         //! Service
-        $anime = $this->youShallNotPass->contentControlDetails($anime);
+        $anime = $this->youShallNotPass->contentControlDetailsAnime($anime);
         //! ======
 
         return $this->render('anime/details.html.twig', [

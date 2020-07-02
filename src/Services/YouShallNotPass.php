@@ -6,7 +6,7 @@ class YouShallNotPass
 {
     private $count = 0;
 
-    public function browseControl($arrayUsedToVerify, $dataToFind)
+    public function typeControlBrowse($arrayUsedToVerify, $dataToFind)
     {
         foreach ( $arrayUsedToVerify as $data ) {
             $result = array_search($dataToFind, $data);
@@ -24,7 +24,7 @@ class YouShallNotPass
         }
     }
 
-    public function contentControlBrowse($dataArray) {
+    public function contentControlBrowseAnime($dataArray) {
 
         foreach ($dataArray['results'] as $index => $data )
         {
@@ -37,7 +37,7 @@ class YouShallNotPass
         return $dataArray;
     }
 
-    public function contentControlDetails($dataArray) {
+    public function contentControlDetailsAnime($dataArray) {
 
             if($dataArray['rating'] == "R+ - Mild Nudity" || $dataArray['rating'] == "Rx - Hentai" )
             {   
