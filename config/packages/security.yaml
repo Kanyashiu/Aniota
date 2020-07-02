@@ -24,7 +24,7 @@ security:
             logout:
                 path: app_logout
                 # where to redirect after logout
-                target: manga
+                target: home
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -37,3 +37,4 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/register, roles: IS_ANONYMOUS }

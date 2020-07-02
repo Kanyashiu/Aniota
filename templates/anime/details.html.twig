@@ -167,13 +167,15 @@
                 <div class="tab-pane fade show {{ loop.index == 1 ? 'active' : '' }}" id="{{ relateTitle }}" role="tabpanel" aria-labelledby="{{ relateTitle }}-tab">
                     <ul class="ul-tabs">
                         {% for item in relate %}
-                            
                             <li class="li-tabs col-2">
                                 <p>Name : <a href="{{ item.url }}">{{ item.name }}</a></p>
                                 <p>Type : {{ item.type }}</p>
-                                <a href="{{ path('anime_details', { 'id': item['mal_id']} )}}" class="btn btn-primary">Details</a>
+                                {% if item.type == 'anime' %}
+                                    <a href="{{ path('anime_details', { 'id': item['mal_id']} )}}" class="btn btn-primary">Details</a>
+                                {% else %}
+                                    <a href="{{ path('manga_details', {'id': item['mal_id']} )}}" class="btn btn-primary">Details</a>
+                                {% endif %}
                             </li>
-                        
                         {% endfor %}
                     </ul>
                 </div>

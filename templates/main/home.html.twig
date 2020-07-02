@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home - {{ parent() }}{% endblock %}
+
+{% block stylesheet %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/home.css') }}">
+{% endblock %}
+
+{% block body %}
+
+<h1>Welcome on Aniota</h1>
+
+<div class="blockImg">
+    <img class="imgHomepage" src="assets/images/ichigo.jpg" alt="">
+    <img class="imgHomepage" src="assets/images/luffy.jpg" alt="">
+    <img class="imgHomepage" src="assets/images/dragonball.jpg" alt="">
+    <img class="imgHomepage" src="assets/images/sakura.jpg" alt="">
+</div>
+
+<h3>The place with all the information about your favorite anime and manga !</h3>
+
+{% if app.user is null %}
+    <h4>Make sure to <a href="{{path('register')}}">subscribe</a> and enjoy your visit.</h4>
+{% endif %}
+
+
+{% endblock %}

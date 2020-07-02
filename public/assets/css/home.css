@@ -1,0 +1,21 @@
+body {
+    background-color: #4b488436;
+}
+
+.imgHomepage {
+    border-radius: 50%;
+    width: 20%;
+    border: 7px solid #0400ff87;
+}
+
+h1, h3, h4 {
+    text-align: center;
+    margin-top: 2rem;
+    color: teal;
+}
+
+.blockImg {
+    display: flex;
+    justify-content: space-around;
+    margin: 5rem 0;
+}

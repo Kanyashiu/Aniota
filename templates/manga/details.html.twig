@@ -148,7 +148,11 @@
                 <div class="divTabs col-2">
                     <li class="tabsList"><a href="{{item.url}}">{{ item.name }}</a></li>
                     <li class="tabsList">Type : {{ item.type }}</li>
-                    <a href="{{ path('manga_details', {'id': item['mal_id']} )}}" class="btn btn-primary">Details</a>
+                    {% if item.type == 'manga' %}
+                        <a href="{{ path('manga_details', {'id': item['mal_id']} )}}" class="btn btn-primary">Details</a>
+                    {% else %}
+                        <a href="{{ path('anime_details', {'id': item['mal_id']} )}}" class="btn btn-primary">Details</a>
+                    {% endif %}
                 </div>
                 {% endfor %}
             </ul>
