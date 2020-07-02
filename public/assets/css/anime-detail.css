@@ -54,19 +54,25 @@ iframe {
 
 .background {
     margin: 2rem 0 2rem 0;
+    text-align: center;
 }
 
+.nav-tabs {
+    margin: 2rem 0;
+    display: flex;
+    justify-content: center;
+}
 
 .ul-tabs {
     display: flex;
     flex-flow: wrap;
     justify-content: center;
+    text-align: center;
 }
 
-.btn-info {
-    display: block;
-    margin: auto;
-    width: 130px;
+.btn-primary {
+    margin-top: 1rem;
+    width: 7rem;
 }
 
 .li-tabs {
@@ -114,7 +120,9 @@ iframe {
     margin-bottom: 1rem;
 }
 
-.btn-primary {
-    margin-top: 1rem;
-    width: 7rem;
+.btn-info {
+    display: block;
+    margin: auto;
+    margin-top: 2rem;
+    width: 130px;
 }

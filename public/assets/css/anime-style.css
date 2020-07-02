@@ -1,38 +1,43 @@
 body {
-    padding: 3rem;
+    font-family: 'Patrick Hand', cursive;
+}
+
+.titleAnimes {
+    text-align: center;
+    color: royalblue;
+    margin-top: 2rem;
+}
+
+.dropdowns {
+    display: flex;
+    justify-content: space-around;
 }
 
 .dropdown-menu {
     height: 20rem;
-    width: 11.85rem;
+    width: auto;
     overflow: auto;
 }
 
 .rating {
-    margin-bottom: 2rem;
-    margin-right: 1rem;
     justify-content: center;
 }
 
 .rating .dropdown-menu {
     height: auto;
-    width: 11.85rem;
+    width: auto;
     overflow: auto;
-}
-
-.genre {
-    margin-bottom: 2rem;
 }
 
 .dropdowns {
     display: flex;
 }
 
-
 .wrapper {
     display: flex;
     flex-flow: wrap;
     justify-content: center;
+    padding: 3rem;
 }
 
 .wrapper2 {
@@ -41,7 +46,7 @@ body {
 }
 
 .card {
-    margin: 0 2rem 2rem 0;
+    margin: 2rem;
 }
 
 

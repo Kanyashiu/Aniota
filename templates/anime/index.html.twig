@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Anime list - {{ parent() }}{% endblock %}
 {% block stylesheet %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('assets/css/anime-style.css') }}">
@@ -7,6 +8,7 @@
 
 {% block body %}
 
+<h1 class="titleAnimes">List of Animes</h1>
 <div class="dropdowns">
 
   <div class="dropdown rating">

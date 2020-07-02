@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+{% block title %} {{ anime.title }} - {{ parent() }}{% endblock %}
 {% block stylesheet %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('assets/css/anime-detail.css') }}">
@@ -132,16 +133,16 @@
 
     <h2 class="title col-12">Background</h2>
     {% if anime.background is not empty %}
-            <p class="background">{{ anime.background }}</p>
+            <p class="background col-12">{{ anime.background }}</p>
     {% else %}
-            <p class="background">There is no background available for this anime</p>  
+            <p class="background col-12">There is no background available for this anime</p>  
     {% endif %}
 
     {% if anime.related is not empty %}
 
         <h1 class="title col-12">Related</h1>
 
-        <ul class="nav nav-tabs col-6" id="myTab" role="tablist">
+        <ul class="nav nav-tabs col-12" id="myTab" role="tablist">
             {% for title, relate in anime.related %}
                 
                 {% set relateTitle = title|replace({' ': '-' }) %}
@@ -181,36 +182,38 @@
 
     {% endif %}
 
-    <div class="people col-12">
-        <h1>People who work on {{ anime.title_english }}</h1>
+    {% if anime.producers or anime.licensors or anime.studios is not empty %}
+        <div class="people col-12">
+            <h1>People who work on {{ anime.title_english }}</h1>
 
-        {% if anime.producers is not empty %}
-            <h3>Producer</h3>
-            {% for producer in anime.producers %}
-                <li>
-                    <a href="{{ producer.url }}">{{ producer.name }}</a>
-                </li>
-            {% endfor %}
-        {% endif %}
-        
-        {% if anime.licensors is not empty %}
-            <h3>Licensor</h3>
-            {% for licensor in anime.licensors %}
-                <li>
-                    <a href="{{ licensor.url }}">{{ licensor.name }}</a>
-                </li>
-            {% endfor %}
-        {% endif %}
+            {% if anime.producers is not empty %}
+                <h3>Producer</h3>
+                {% for producer in anime.producers %}
+                    <li>
+                        <a href="{{ producer.url }}">{{ producer.name }}</a>
+                    </li>
+                {% endfor %}
+            {% endif %}
+            
+            {% if anime.licensors is not empty %}
+                <h3>Licensor</h3>
+                {% for licensor in anime.licensors %}
+                    <li>
+                        <a href="{{ licensor.url }}">{{ licensor.name }}</a>
+                    </li>
+                {% endfor %}
+            {% endif %}
 
-        {% if anime.studios is not empty %}
-            <h3>Studios</h3>
-            {% for studio in anime.studios %}
-                <li>
-                    <a href="{{ studio.url }}">{{ studio.name }}</a>
-                </li>
-            {% endfor %}
-        {% endif %}
-    </div>
+            {% if anime.studios is not empty %}
+                <h3>Studios</h3>
+                {% for studio in anime.studios %}
+                    <li>
+                        <a href="{{ studio.url }}">{{ studio.name }}</a>
+                    </li>
+                {% endfor %}
+            {% endif %}
+        </div>
+    {% endif %}
 
     {% if anime.opening_themes or anime.ending_themes is not empty %}
         <div class="theme col-12">
@@ -242,6 +245,7 @@
             {% endif %}
         </div>
     {% endif %}
+    
 
     <a href="{{path('anime')}}" class="btn btn-info">Retour à l'accueil</a>
 
