@@ -1,4 +1,5 @@
-#user {
+.registerForm {
+    display: block;
     width: 50rem;
     text-align: center;
     margin: auto;
@@ -6,7 +7,6 @@
 }
 
 #user_submit {
-    display: block;
     margin: auto;
     width: 10rem;
     margin-top: 3rem;

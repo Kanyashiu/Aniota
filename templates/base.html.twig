@@ -31,11 +31,11 @@
                     </div>
                 {% endfor %}
                 {% if app.user is null %}
-                    <li class="nav-item sign">
-                        <a class="nav-link onNav" href="{{path('register')}}">Sign Up</a>
-                    </li>
                     <li class="nav-item connexion">
                         <a class="nav-link onNav" href="{{path('app_login')}}">Login</a>
+                    </li>
+                    <li class="nav-item sign">
+                        <a class="nav-link onNav" href="{{path('register')}}">Sign Up</a>
                     </li>
                 {% else %}
                     <li class="nav-item connexion">
@@ -48,7 +48,7 @@
                 
             </ul>
             <form class="form-inline">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <input class="form-control mr-sm-2" type="search" placeholder="Find your manga/anime..." aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>

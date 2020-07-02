@@ -10,6 +10,21 @@
 {% block body %}
 
 <h2 class="registrationTitle">Welcome to the registration area</h2>
- {{form(form)}}
+
+{{ form_start(form) }}
+    <div class="row registerForm">
+        <div class="col email">
+            {{ form_row(form.email) }}
+        </div>
+        <div class="col password">
+            {{ form_row(form.password) }}
+            {{ form_help(form.password) }}
+        </div>
+    </div>
+
+    <div class="my-custom-class-for-errors">
+        {{ form_errors(form) }}
+    </div>
+{{ form_end(form) }}
 
 {% endblock %}

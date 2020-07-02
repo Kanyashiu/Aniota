@@ -31,7 +31,7 @@ class UserController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            $this->addFlash('success', 'Your account has been well registered.');
+            $this->addFlash('success', 'Your account has been well registered, you can now log in.');
 
             return $this->redirectToRoute('manga');
         }
