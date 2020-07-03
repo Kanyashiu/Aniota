@@ -14,4 +14,20 @@ class MainController extends AbstractController
     {
         return $this->render('main/home.html.twig');
     }
+
+    /**
+     * @Route("/profile", name="profile")
+     */
+    public function profile()
+    {
+        return $this->render('main/profile.html.twig');
+    }
+
+    /**
+     * @Route("search", name="search")
+     */
+    public function search()
+    {
+
+    }
 }

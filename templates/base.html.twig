@@ -27,7 +27,7 @@
                 </li>
                 {% for message in app.flashes('success') %}
                     <div class="alert alert-success">
-                        {{message}}
+                        {{message|raw}}
                     </div>
                 {% endfor %}
                 {% if app.user is null %}
@@ -39,7 +39,7 @@
                     </li>
                 {% else %}
                     <li class="nav-item connexion">
-                        <a class="nav-link onNav" href="">Profile</a>
+                        <a class="nav-link onNav" href="{{path('profile')}}">Profile</a>
                     </li>
                     <li class="nav-item sign">
                         <a class="nav-link onNav" href="{{path('app_logout')}}">Logout</a>

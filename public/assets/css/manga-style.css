@@ -13,6 +13,7 @@
 
 .card {
     margin: 2rem;
+    border-radius: 15px;
 }
 
 .card-body {

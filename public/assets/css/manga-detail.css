@@ -78,3 +78,7 @@ ul {
     margin: auto;
     width: 130px;
 }
+
+.nav-link active {
+    background-color: deepskyblue;
+}

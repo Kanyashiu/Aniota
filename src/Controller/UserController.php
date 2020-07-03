@@ -31,9 +31,11 @@ class UserController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            $this->addFlash('success', 'Your account has been well registered, you can now log in.');
+            $loginUrl = $this->generateUrl('app_login');
 
-            return $this->redirectToRoute('manga');
+            $this->addFlash('success', sprintf('Your account has been well registered, you can now <a href="%s">log in</a>.', $loginUrl));
+
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('user/register.html.twig', [
