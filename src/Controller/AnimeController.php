@@ -15,6 +15,7 @@ class AnimeController extends AbstractController
     {
         $this->youShallNotPass = $youShallNotPass;
     }
+    
     /**
      * @Route("/anime", name="anime", methods={"GET"})
      */
@@ -34,9 +35,7 @@ class AnimeController extends AbstractController
         if (isset( $_GET['rated']) && !empty( $_GET['rated'])) {
             $rating = $_GET['rated'];
             
-            //! Service
-            $this->youShallNotPass->typeControlBrowse($animeRating, $rating);
-            //!============================
+            $this->youShallNotPass->typeControlBrowseAnime($animeRating, $rating);
 
             $response = $client->request('GET', 'https://api.jikan.moe/v3/search/anime?rated=' . $rating . '&page=' . $page . '');
         }
@@ -44,14 +43,12 @@ class AnimeController extends AbstractController
             
             $genre = $_GET['genre'];
 
-            //! Service
-            $this->youShallNotPass->typeControlBrowse($animeGenre, $genre);
-            //!============================
+            $this->youShallNotPass->typeControlBrowseAnime($animeGenre, $genre);
             
             $response = $client->request('GET', 'https://api.jikan.moe/v3/search/anime?genre=' . $genre . '&page=' . $page . '');
         }
         else {
-            $response = $client->request('GET', 'https://api.jikan.moe/v3/search/anime?order_by=title');
+            $response = $client->request('GET', 'https://api.jikan.moe/v3/search/anime?order_by=title&page=' . $page . '');
         }
 
         // //! Pour gérer l'erreur 429 plus tard
@@ -60,9 +57,7 @@ class AnimeController extends AbstractController
         
         $animes = $response->toArray();
 
-        //! Service
         $animes = $this->youShallNotPass->contentControlBrowseAnime($animes);
-        //!============================
 
         return $this->render('anime/index.html.twig', [
             'animes' => $animes['results'],
@@ -79,21 +74,18 @@ class AnimeController extends AbstractController
      */
     public function details($id)
     {
-        //! Service
         // Ce code permet d'éviter les spam qui provoquent l'erreur 429
+        // Touch permet de créer le fichier anime-YSNP.json il ne l'écrase pas si il existe
         touch('assets/json/anime-YSNP.json');
         $animeYSNP = json_decode(file_get_contents("assets/json/anime-YSNP.json"), true);
         $this->youShallNotPass->contentControlExistingDataAnime($animeYSNP, $id);
-        //! ========
 
         $client = HttpClient::create();
         $response = $client->request('GET', 'https://api.jikan.moe/v3/anime/' . $id . '');
 
         $anime = $response->toArray();
 
-        //! Service
         $anime = $this->youShallNotPass->contentControlDetailsAnime($anime);
-        //! ======
 
         return $this->render('anime/details.html.twig', [
             'anime' => $anime
