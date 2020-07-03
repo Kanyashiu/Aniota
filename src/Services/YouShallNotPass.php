@@ -2,11 +2,22 @@
 
 namespace App\Services;
 
+use App\Repository\ExcludeMangaRepository;
+
 class YouShallNotPass
 {
     private $count = 0;
+    private $excludeManga;
 
-    public function typeControlBrowse($arrayUsedToVerify, $dataToFind)
+    public function __construct(ExcludeMangaRepository $excludeManga)
+    {
+        $this->excludeManga = $excludeManga;
+    }
+
+    //===========================
+    // Anime method
+    //===========================
+    public function typeControlBrowseAnime($arrayUsedToVerify, $dataToFind)
     {
         foreach ( $arrayUsedToVerify as $data ) {
             $result = array_search($dataToFind, $data);
@@ -69,7 +80,7 @@ class YouShallNotPass
                 $currentEncode = json_encode($currentDecode);
 
                 //! Evolution possible parse le fichier pour qu'il afficher une tabulation et des saut de ligne
-                //! Pour un ficher plus humanReadly
+                //! Pour un ficher plus humanReadible
                 //$finalCurrent = str_replace("{", "{\n", $currentEncode);
                 //! ==============
 
@@ -100,69 +111,48 @@ class YouShallNotPass
         }
     }
 
-    //! MANGA
-    public function contentControlDetailsManga($mangaToVerify, $dataArrayUsedToVerify) {
-        
-        // Boucle foreach qui permet de comparer les genre dans le manga demandé
-        // avec les genre autorisé dans notre fichier manga-genre.json
-        $tempArray = [];
-        foreach ($mangaToVerify['genres'] as $genre) {
-            
-            foreach ($dataArrayUsedToVerify as $genre2) {
-                $result = array_search($genre['name'], $genre2);
-                
-                if ($result != false) {
-                    $tempArray[] = $genre['name'];
-                }
-            }
-        }
 
-        if(count($mangaToVerify['genres']) != count($tempArray))
-        {   
-            //ecchi9-hentai10-Shoujo Ai26-Shounen Ai28-Yaoi33-Yuri34-Doujinshi43
-            $file = '../public/assets/json/manga-YSNP.json';
-
-            $current = file_get_contents($file);
-            
-            $currentDecode = json_decode($current, true);
-
-            $id = $mangaToVerify['mal_id'];
-            $title = $mangaToVerify['title'];
-
-            $content = [
-                'id' => $id,
-                'title' => $title,
-            ];
-
-            $currentDecode[] = $content;
-            
-            $currentDecode = (object) $currentDecode;
-
-            $currentEncode = json_encode($currentDecode);
-
-            file_put_contents($file, $currentEncode);
-
-            throw new \Exception('Error 404 Détails Manga 1', 404);
-        }
-
-        return $mangaToVerify;
-    }
-
-    public function contentControlExistingDataManga($dataArray, $dataToFind) {
-        
-        if (empty($dataArray))
-        {
-            return;
-        }
-        
-        foreach ($dataArray as $data)
-        {
+    //===========================
+    // Manga method
+    //===========================
+    public function typeControlBrowseManga($arrayUsedToVerify, $dataToFind)
+    {
+        foreach ( $arrayUsedToVerify as $data ) {
             $result = array_search($dataToFind, $data);
             
-            if ( $result != false)
+            $this->count++;
+
+            if ( $result != false ) {
+                break;
+            }
+
+            if ( count($arrayUsedToVerify) == $this->count )
             {
-                throw new \Exception('Error 404 Détails Manga 2', 404);
+                return true;
             }
         }
+        return false;
+    }
+
+    public function contentControlBrowseManga($dataArray) {
+        
+        foreach ($dataArray as $index => $data) {
+            $mangas = $this->excludeManga->findByMalId($data['mal_id']);
+            
+            if ($mangas != null) {
+                unset($dataArray[$index]);
+            }
+        }
+        return $dataArray;
+    }
+
+    public function contentControlDetailsManga($dataToFind) {
+        
+        $manga = $this->excludeManga->findByMalId($dataToFind);
+
+        if ($manga != null) {
+            return true;
+        }
+        return false;
     }
 }
