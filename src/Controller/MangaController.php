@@ -60,8 +60,6 @@ class MangaController extends AbstractController
 
         $results = $content['results'];
 
-        
-        
         $results = $this->youShallNotPass->contentControlBrowseManga($results);
 
         return $this->render('manga/index.html.twig', [
