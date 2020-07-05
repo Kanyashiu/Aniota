@@ -25,7 +25,7 @@ class ExcludeMangaRepository extends ServiceEntityRepository
             ->andWhere('e.mal_id = :id')
             ->setParameter('id', $id)
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult()
         ;
     }
 }
