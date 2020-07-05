@@ -35,7 +35,10 @@ class AnimeController extends AbstractController
         if (isset( $_GET['rated']) && !empty( $_GET['rated'])) {
             $rating = $_GET['rated'];
             
-            $this->youShallNotPass->typeControlBrowseAnime($animeRating, $rating);
+            $result = $this->youShallNotPass->typeControlBrowseManga($animeRating, $rating);
+            if ($result) {
+                throw $this->createNotFoundException("Error 404 Browse Anime ( rated '".$rating."' )");
+            }
 
             $response = $client->request('GET', 'https://api.jikan.moe/v3/search/anime?rated=' . $rating . '&page=' . $page . '');
         }
@@ -43,7 +46,10 @@ class AnimeController extends AbstractController
             
             $genre = $_GET['genre'];
 
-            $this->youShallNotPass->typeControlBrowseAnime($animeGenre, $genre);
+            $result = $this->youShallNotPass->typeControlBrowseManga($animeGenre, $genre);
+            if ($result) {
+                throw $this->createNotFoundException("Error 404 Browse Anime ( genre '".$genre."' )");
+            }
             
             $response = $client->request('GET', 'https://api.jikan.moe/v3/search/anime?genre=' . $genre . '&page=' . $page . '');
         }
@@ -57,10 +63,10 @@ class AnimeController extends AbstractController
         
         $animes = $response->toArray();
 
-        $animes = $this->youShallNotPass->contentControlBrowseAnime($animes);
+        $animes = $this->youShallNotPass->contentControlBrowseAnime($animes['results']);
 
         return $this->render('anime/index.html.twig', [
-            'animes' => $animes['results'],
+            'animes' => $animes,
             'page' => $page,
             'rated' => $rating ?? null,
             'genre' => $genre ?? null,
@@ -74,18 +80,15 @@ class AnimeController extends AbstractController
      */
     public function details($id)
     {
-        // Ce code permet d'éviter les spam qui provoquent l'erreur 429
-        // Touch permet de créer le fichier anime-YSNP.json il ne l'écrase pas si il existe
-        touch('assets/json/anime-YSNP.json');
-        $animeYSNP = json_decode(file_get_contents("assets/json/anime-YSNP.json"), true);
-        $this->youShallNotPass->contentControlExistingDataAnime($animeYSNP, $id);
+        $result = $this->youShallNotPass->contentControlDetailsAnime($id);
+        if ($result) {
+            throw $this->createNotFoundException("Error 404 Details Anime");
+        }
 
         $client = HttpClient::create();
         $response = $client->request('GET', 'https://api.jikan.moe/v3/anime/' . $id . '');
 
         $anime = $response->toArray();
-
-        $anime = $this->youShallNotPass->contentControlDetailsAnime($anime);
 
         return $this->render('anime/details.html.twig', [
             'anime' => $anime
