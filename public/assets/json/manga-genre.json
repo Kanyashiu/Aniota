@@ -92,70 +92,62 @@
       "name": "Shoujo"
     },
     "24": {
-      "id": 26,
-      "name": "Shoujo Ai"
-    },
-    "25": {
       "id": 27,
       "name": "Shounen"
     },
-    "26": {
-      "id": 28,
-      "name": "Shounen Ai"
-    },
-    "27": {
+    "25": {
       "id": 29,
       "name": "Space"
     },
-    "28": {
+    "26": {
       "id": 30,
       "name": "Sports"
     },
-    "29": {
+    "27": {
       "id": 31,
       "name": "Super Power"
     },
-    "30": {
+    "28": {
       "id": 32,
       "name": "Vampire"
     },
-    "31": {
+    "29": {
       "id": 35,
       "name": "Harem"
     },
-    "32": {
+    "30": {
       "id": 36,
       "name": "Slice Of Life"
     },
-    "33": {
+    "31": {
       "id": 37,
       "name": "Supernatural"
     },
-    "34": {
+    "32": {
       "id": 38,
       "name": "Military"
     },
-    "35": {
+    "33": {
       "id": 39,
       "name": "Police"
     },
-    "36": {
+    "34": {
       "id": 40,
       "name": "Psychological"
     },
-    "37": {
-        "id": 41,
-        "name": "Seinen"
+    "35": {
+      "id": 41,
+      "name": "Seinen"
     },
-    "38": {
+    "36": {
       "id": 42,
       "name": "Josei"
     },
-    "39": {
+    "37": {
       "id": 44,
       "name": "Gender Bender"
     },
-    "40": {
+    "38": {
       "id": 45,
       "name": "Thriller"
     }
