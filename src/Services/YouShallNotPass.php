@@ -39,8 +39,8 @@ class YouShallNotPass
         return false;
     }
 
-    public function contentControlBrowseAnime($dataArray) {
-        
+    public function contentControlBrowseAnime($dataArray) 
+    {
         foreach ($dataArray as $index => $data) {
             $animes = $this->excludeAnime->findByMalId($data['mal_id']);
             
@@ -83,8 +83,8 @@ class YouShallNotPass
         return false;
     }
 
-    public function contentControlBrowseManga($dataArray) {
-        
+    public function contentControlBrowseManga($dataArray) 
+    {
         foreach ($dataArray as $index => $data) {
             $mangas = $this->excludeManga->findByMalId($data['mal_id']);
             
