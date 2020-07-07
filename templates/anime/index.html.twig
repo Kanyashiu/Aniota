@@ -11,21 +11,9 @@
 <h1 class="titleAnimes">List of Animes</h1>
 <div class="dropdowns">
 
-  <div class="dropdown rating">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Select Anime Rating
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      {% for anime in animeRating %}
-          <a class="dropdown-item" href="{{ path('anime', {'rated': anime.id} )}}">{{ anime.name }}</a>
-      {% endfor %}
-      {# This rating are base on MyAnimeList Rating https://myanimelist.net/info.php?go=mpaa #}
-    </div>
-  </div>
-
   <div class="dropdown genre">
     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Select Anime Genre
+      Select Anime By Genre
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
       {% for anime in animeGenre %}
@@ -34,6 +22,17 @@
     </div>
   </div>
 
+  <div class="dropdown rating">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Select Anime By Rating
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      {% for anime in animeRating %}
+          <a class="dropdown-item" href="{{ path('anime', {'rated': anime.id} )}}">{{ anime.name }}</a>
+      {% endfor %}
+      {# This rating are base on MyAnimeList Rating https://myanimelist.net/info.php?go=mpaa #}
+    </div>
+  </div>
 </div>
 
 <div class="wrapper {{ animes is empty ? 'wrapper2' : '' }}">
