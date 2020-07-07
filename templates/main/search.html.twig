@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Results for "{{data}}" - {{ parent() }}{% endblock %}
+
+{% block stylesheet %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/manga-style.css') }}">
+{% endblock %}
+
+{% block body %}
+
+<h1 class="titleMangas">Your Search Results for "{{data}}"</h1>
+
+<p class="resultsFound"><span>{{results|length}}</span> results found</p>
+<div class="wrapper">
+    {% for result in results %}
+        {# {{dump(result)}} #}
+        <div class="card" style="width: 18rem;">
+            <img src="{{ result.image_url}}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{ result.title }}</h5>
+                {% if result.synopsis == null %}
+                    <p>There is no description for this manga</p>
+                {% else %}
+                    <p class="card-text">{{ result.synopsis }}</p>
+                {% endif %}
+                {% if result.chapters is defined %}
+                <a href="{{path('manga_details', {'id': result.mal_id })}}" class="btn btn-primary">Details</a>
+                {% else %}
+                <a href="{{path('anime_details', {'id': result.mal_id })}}" class="btn btn-primary">Details</a>
+                {% endif %}
+                
+            </div>
+        </div>
+
+    {% endfor %}
+
+    {% if results is empty %}
+    <div class="empty-manga">
+        Sorry there are no results for your research or you may have written it incorrectly.
+        You can try again or you can go back to the <a href="{{ path('home') }}">homepage</a>
+      </div>
+    {% endif %}
+    </div>
+
+<div class="homepageButton">
+    <a href="{{path('home')}}" class="btn btn-info next">Back to homepage</a>
+</div>
+{% endblock %}

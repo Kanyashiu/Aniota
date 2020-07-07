@@ -52,6 +52,12 @@
         </div>
 
     {% endfor %}
+
+    {% if mangas is empty %}
+      <div class="empty-manga">
+       Sorry there are no manga for these categories
+      </div>
+    {% endif %}
 </div>
 
 <div class="pagination {{ page > 1 ? '' : 'pagination2' }}">
