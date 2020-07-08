@@ -18,6 +18,18 @@
         <div class="card" style="width: 18rem;">
             <img src="{{ result.image_url}}" class="card-img-top" alt="...">
             <div class="card-body">
+                {% if app.user %}
+                    {% if result.chapters is defined %}
+                    <a href="{{ path('favorite_manga', {'id': result.mal_id} )}}">
+                        <i class="fa fa-heart-o" aria-hidden="true"></i>
+                    </a>
+                    {% else %}
+                    <a href="{{ path('favorite_anime', {'id': result.mal_id} )}}">
+                        <i class="fa fa-heart-o" aria-hidden="true"></i>
+                    </a>
+                    {% endif %}
+                    
+                {% endif %}
                 <h5 class="card-title">{{ result.title }}</h5>
                 {% if result.synopsis == null %}
                     <p>There is no description for this manga</p>

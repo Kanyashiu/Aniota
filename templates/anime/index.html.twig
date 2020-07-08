@@ -35,6 +35,15 @@
   </div>
 </div>
 
+{% if animes is not empty %}
+  <div class="pagination {{ page > 1 ? '' : 'pagination2' }}">
+      {% if page > "1" %}
+          <a href="{{ path('anime', {'page': page - 1, 'rated': rated, 'genre': genre} )}}" class="btn btn-info previous">Previous Page</a>
+      {% endif %}
+          <a href="{{ path('anime', {'page': page + 1, 'rated': rated, 'genre': genre} )}}" class="btn btn-info next">Next Page</a>
+  </div>
+{% endif %}
+
 <div class="wrapper {{ animes is empty ? 'wrapper2' : '' }}">
     
     {% for anime in animes %}
@@ -42,6 +51,28 @@
         <div class="card" style="width: 18rem;">
             <img src="{{ anime.image_url}}" class="card-img-top" alt="...">
             <div class="card-body">
+                
+                {% if app.user %}
+                  
+                  {% set break = false %}
+                  
+                  {% for anime1 in app.user.favorites %}
+                    {% if anime1.malId == anime.mal_id %}
+                      <a href="{{ path('favorite_anime', {'id': anime.mal_id} )}}">
+                        <i class="fa fa-heart" aria-hidden="true"></i>
+                        {% set break = true %}
+                      </a>
+                    {% endif %}
+                  {% endfor %}
+                  
+                  {% if not break %}
+                    <a href="{{ path('favorite_anime', {'id': anime.mal_id} )}}">
+                      <i class="fa fa-heart-o" aria-hidden="true"></i>
+                    </a>
+                  {% endif %}
+                  
+                {% endif %}
+                
                 <h5 class="card-title">{{ anime.title}}</h5>
                 
                 {% if anime.synopsis == null %}
@@ -55,20 +86,23 @@
         </div>
 
     {% endfor %}
+</div>
     
     {% if animes is empty %}
       <div class="empty-anime">
-       Sorry there are no anime for these categories
+        <p class="sorryMsg">Sorry there are no more animes for this category.</p> 
+        <a href="{{path('anime')}}" class="btn btn-info linkEmpty">Back to animes list</a>
       </div>
+    {% else %}
+        <div class="pagination {{ page > 1 ? '' : 'pagination2' }}">
+        {% if page > "1" %}
+            <a href="{{ path('anime', {'page': page - 1, 'rated': rated, 'genre': genre} )}}" class="btn btn-info previous">Previous Page</a>
+        {% endif %}
+            <a href="{{ path('anime', {'page': page + 1, 'rated': rated, 'genre': genre} )}}" class="btn btn-info next">Next Page</a>
+        </div>
     {% endif %}
-</div>
 
-<div class="pagination {{ page > 1 ? '' : 'pagination2' }}">
-    {% if page > "1" %}
-        <a href="{{ path('anime', {'page': page - 1, 'rated': rated, 'genre': genre} )}}" class="btn btn-info previous">Previous Page</a>
-    {% endif %}
-        <a href="{{ path('anime', {'page': page + 1, 'rated': rated, 'genre': genre} )}}" class="btn btn-info next">Next Page</a>
-</div>
+
 
 
 {% endblock %}

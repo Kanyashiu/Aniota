@@ -1,70 +1,103 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Manga list - {{ parent() }}{% endblock %}
+{% block title %}Manga list -
+	{{ parent() }}
+{% endblock %}
 
 {% block stylesheet %}
-    {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('assets/css/manga-style.css') }}">
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ asset('assets/css/manga-style.css') }}">
 {% endblock %}
 
 {% block body %}
 
-<h1 class="titleMangas">List of Mangas</h1>
-<div class="dropdowns">
+	<h1 class="titleMangas">List of Mangas</h1>
+	<div class="dropdowns">
 
-    <div class="dropdown-genre">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Select Manga By Genre
-    </button>
-    <div class="dropdown-menu genre-menu" aria-labelledby="dropdownMenuButton">
-        {% for json in jsonGenre %}
-            <a class="dropdown-item" href="{{ path('manga', {'genre': json['id']} )}}">{{ json['name'] }}</a>
-        {% endfor %}
-    </div>
-    </div>
+		<div class="dropdown-genre">
+			<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Select Manga By Genre
+			</button>
+			<div class="dropdown-menu genre-menu" aria-labelledby="dropdownMenuButton">
+				{% for json in jsonGenre %}
+					<a class="dropdown-item" href="{{ path('manga', {'genre': json['id']} )}}">{{ json['name'] }}</a>
+				{% endfor %}
+			</div>
+		</div>
 
-    <div class="dropdown-sort">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Select Manga By Order
-    </button>
-    <div class="dropdown-menu sort-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="{{ path('manga', {'sort': 'asc'} )}}">Ascending</a>
-        <a class="dropdown-item" href="{{ path('manga', {'sort': 'desc'} )}}">Descending</a>
-    </div>
-    </div>
+		<div class="dropdown-sort">
+			<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Select Manga By Order
+			</button>
+			<div class="dropdown-menu sort-menu" aria-labelledby="dropdownMenuButton">
+				<a class="dropdown-item" href="{{ path('manga', {'sort': 'asc', 'genre' : genre} )}}">Ascending</a>
+				<a class="dropdown-item" href="{{ path('manga', {'sort': 'desc', 'genre' : genre} )}}">Descending</a>
+			</div>
+		</div>
 
-</div>
+	</div>
 
-<div class="wrapper">
-    {% for manga in mangas %}
-        {# {{dump(manga)}} #}
-        <div class="card" style="width: 18rem;">
-            <img src="{{ manga['image_url']}}" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">{{ manga['title']}}</h5>
-                {% if manga['synopsis'] == null %}
-                    <p>There is no description for this manga</p>
-                {% else %}
-                    <p class="card-text">{{ manga['synopsis']}}</p>
-                {% endif %}
-                <a href="{{path('manga_details', {'id': manga['mal_id']})}}" class="btn btn-primary">Details</a>
-            </div>
-        </div>
+	{% if mangas is not empty %}
+		<div class="pagination {{ page > 1 ? '' : 'pagination2' }}">
+			{% if page > "1" %}
+				<a href="{{path('manga', {'page': page - 1, 'sort': sort, 'genre': genre} )}}" class="btn btn-info previous">Previous Page</a>
+			{% endif %}
+				<a href="{{path('manga', {'page': page + 1, 'sort': sort, 'genre': genre} )}}" class="btn btn-info next">Next Page</a>
+		</div>
+	{% endif %}
 
-    {% endfor %}
+	<div class="wrapper">
+		{% for manga in mangas %}
+			<div class="card" style="width: 18rem;">
+				<img src="{{ manga['image_url']}}" class="card-img-top" alt="...">
+				<div class="card-body">
+					
+				{% if app.user %}
+					
+					{% set break = false %}
+					
+					{% for manga1 in app.user.favorites %}
+						{% if manga1.malId == manga.mal_id %}
+							<a href="{{ path('favorite_manga', {'id': manga.mal_id} )}}">
+								<i class="fa fa-heart" aria-hidden="true"></i>
+							{% set break = true %}
+							</a>
+						{% endif %}
+					{% endfor %}
+					
+					{% if not break %}
+					<a href="{{ path('favorite_manga', {'id': manga.mal_id} )}}">
+						<i class="fa fa-heart-o" aria-hidden="true"></i>
+					</a>
+					{% endif %}
+					
+				{% endif %}
+					
+					<h5 class="card-title">{{ manga['title']}}</h5>
+					{% if manga['synopsis'] == null %}
+						<p>There is no description for this manga</p>
+					{% else %}
+						<p class="card-text">{{ manga['synopsis']}}</p>
+					{% endif %}
+					<a href="{{path('manga_details', {'id': manga['mal_id']})}}" class="btn btn-primary">Details</a>
+				</div>
+			</div>
 
-    {% if mangas is empty %}
-      <div class="empty-manga">
-       Sorry there are no manga for these categories
-      </div>
-    {% endif %}
-</div>
+		{% endfor %}
+	</div>
 
-<div class="pagination {{ page > 1 ? '' : 'pagination2' }}">
-{% if page > "1" %}
-    <a href="{{path('manga', {'page': page - 1} )}}" class="btn btn-info previous">Previous Page</a>
-{% endif %}
+		{% if mangas is empty %}
+			<div class="empty-manga">
+				<p class="sorryMsg">Sorry there are no more mangas for this category.</p>
+				<a href="{{path('manga')}}" class="btn btn-info linkEmpty">Back to mangas list</a>
+			</div>
+		{% else %}
+			<div class="pagination {{ page > 1 ? '' : 'pagination2' }}">
+				{% if page > "1" %}
+					<a href="{{path('manga', {'page': page - 1, 'sort': sort, 'genre': genre} )}}" class="btn btn-info previous">Previous Page</a>
+				{% endif %}
+				<a href="{{path('manga', {'page': page + 1, 'sort': sort, 'genre': genre} )}}" class="btn btn-info next">Next Page</a>
+			</div>
+		{% endif %}
 
-    <a href="{{path('manga', {'page': page + 1} )}}" class="btn btn-info next">Next Page</a>
-</div>
 {% endblock %}

@@ -17,6 +17,10 @@ class UserController extends AbstractController
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em)
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('home');
+        }
+
         $user = new User();
         
         $form = $this->createForm(UserType::class, $user);

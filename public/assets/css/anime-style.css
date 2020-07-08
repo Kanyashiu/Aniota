@@ -31,13 +31,14 @@ body {
 
 .dropdowns {
     display: flex;
+    margin-bottom: 3rem;
 }
 
 .wrapper {
     display: flex;
     flex-flow: wrap;
     justify-content: center;
-    padding: 3rem;
+    padding: 0 3rem 3rem 3rem;
 }
 
 .wrapper2 {
@@ -69,6 +70,7 @@ body {
     justify-content: space-between;
     width: 18rem;
     margin: auto;
+    margin-bottom: 2rem;
 }
 
 .pagination2 {
@@ -77,4 +79,21 @@ body {
 
 .next {
     width: 130px;
+}
+
+.empty-manga {
+    display: flex;
+    flex-direction: column;
+}
+
+.sorryMsg {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.linkEmpty {
+    width: 9rem;
+    display: block;
+    margin: auto;
+    margin-top: 2rem;
 }
