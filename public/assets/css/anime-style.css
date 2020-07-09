@@ -4,7 +4,7 @@ body {
 
 .titleAnimes {
     text-align: center;
-    color: royalblue;
+    color: #0400ff87;
     margin-top: 2rem;
 }
 
@@ -96,4 +96,16 @@ body {
     display: block;
     margin: auto;
     margin-top: 2rem;
+}
+
+.profileTitle {
+    text-align: center;
+    color: #0400ff87;
+    margin-top: 2rem;
+}
+
+.favoriteMissing {
+    color: teal;
+    font-size: 1.7rem;
+    margin-top: 10rem;
 }

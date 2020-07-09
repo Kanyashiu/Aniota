@@ -19,7 +19,8 @@
         </div>
     {% endif %}
 
-    <h2 class="loginTitle mb-3 font-weight-normal">Please sign in</h2>
+    <h2 class="loginTitle font-weight-normal">Please sign in</h2>
+    <p class="register">If you don't have an account, you can <a href="{{path('register')}}">create</a> one.</p>
     <label for="inputEmail">Email</label>
     <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control inputLogin" required autofocus>
     <label for="inputPassword">Password</label>

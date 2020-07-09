@@ -31,6 +31,11 @@
                         {{message|raw}}
                     </div>
                 {% endfor %}
+                {% for message in app.flashes('error') %}
+                    <div class="alert alert-danger">
+                        {{message|raw}}
+                    </div>
+                {% endfor %}
                 {% if app.user is null %}
                     <li class="nav-item connexion">
                         <a class="nav-link onNav" href="{{path('app_login')}}">Login</a>
@@ -49,7 +54,7 @@
                 
             </ul>
             <form class="form-inline" action="{{ path('search') }}" method="post">
-                <input class="form-control mr-sm-2" type="search" placeholder="Find your manga/anime..." aria-label="Search" name="search">
+                <input class="form-control mr-sm-2" type="search" placeholder="Find your manga/anime..." value="{{ data is defined ? data  : '' }}" aria-label="Search" name="search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>

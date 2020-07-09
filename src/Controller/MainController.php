@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\FavoriteRepository;
 use App\Services\YouShallNotPass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,16 +31,18 @@ class MainController extends AbstractController
      */
     public function profile()
     {
+        
+
         return $this->render('main/profile.html.twig');
     }
 
     /**
-     * @Route("search", name="search", methods={"POST"})
+     * @Route("search", name="search", methods={"POST", "GET"})
      */
     public function search(Request $request, HttpClientInterface $httpClient)
     {
         $data = ucwords(strtolower($request->request->get('search')));
-
+        
         sleep(2);
         $response = $httpClient->request('GET', 'https://api.jikan.moe/v3/search/manga?q='. $data .'&page=1');
         $content = $response->getContent();

@@ -24,13 +24,28 @@ class FavoriteController extends AbstractController
      */
     public function favoriteManga(FavoriteRepository $favoriteRepository, EntityManagerInterface $em, HttpClientInterface $httpClient, $id)
     {
+
+        //! ================================================
+        $url = substr($_SERVER['HTTP_REFERER'], -6);
+        if ( $url == "search" ) {
+            return $this->redirectToRoute('search');
+        }
+        //! ================================================
+
+        $result = $this->youShallNotPass->contentControlDetailsManga($id);
+        if ($result) {
+            throw $this->createNotFoundException("Error 404 Favorite Manga");
+        }
+
+        if (!$this->getUser()) {
+            $this->addFlash('error', 'You must be logged to add an anime/manga in favorite');
+            return $this->redirectToRoute('app_login');
+        }
         
         $responseManga = $httpClient->request('GET', 'https://api.jikan.moe/v3/manga/'. $id . '');
-
         $contentManga = $responseManga->getContent();
         $contentManga = $responseManga->toArray();
 
-        //dd($contentManga);
 
         $favorite = $favoriteRepository->findByMalId($id);
         if (!$favorite) {
@@ -40,17 +55,17 @@ class FavoriteController extends AbstractController
             $favorite->setSynopsis($contentManga['synopsis']);
             $favorite->setMalId($contentManga['mal_id']);
             $favorite->setUser($this->getUser());
+            $favorite->setType('Manga');
 
             $em->persist($favorite);
         } else {
             foreach ($favorite as $object) {
-                //dd($object);
                 $em->remove($object);
             }
         }
 
         $em->flush();
-        
+
         //sleep(2);
         return $this->redirect($_SERVER['HTTP_REFERER']);
     }
@@ -64,17 +79,16 @@ class FavoriteController extends AbstractController
         if ($result) {
             throw $this->createNotFoundException("Error 404 Favorite Anime");
         }
-        
+
         if (!$this->getUser()) {
-            //Redirection vers login ?
-            // Avec un message flash comme quoi il faut etre connecté pour ajouté un anime ?
-            dd('lit les comm jolan :P');
+            $this->addFlash('error', 'You must be logged to add an anime/manga in favorite');
+            return $this->redirectToRoute('app_login');
         }
 
         $responseAnime = $httpClient->request('GET', 'https://api.jikan.moe/v3/anime/'. $id . '');
-
         $contentAnime = $responseAnime->getContent();
         $contentAnime = $responseAnime->toArray();
+
 
         $favorite = $favoriteRepository->findByMalId($id);
         if (!$favorite) {
@@ -84,11 +98,11 @@ class FavoriteController extends AbstractController
             $favorite->setSynopsis($contentAnime['synopsis']);
             $favorite->setMalId($contentAnime['mal_id']);
             $favorite->setUser($this->getUser());
+            $favorite->setType('Anime');
 
             $em->persist($favorite);
         } else {
             foreach ($favorite as $object) {
-                //dd($object);
                 $em->remove($object);
             }
         }

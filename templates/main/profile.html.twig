@@ -4,10 +4,56 @@
 
 {% block stylesheet %}
     {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/anime-style.css') }}">
 {% endblock %}
 
 {% block body %}
 
-<h1>Your Profile</h1>
+<div class="profileTitle">
+    <h1>Your Profile</h1>
+    <p>Here you can find all of the animes and mangas that you have added to your favorites.</p>
+</div>
+
+<div class="wrapper">
+
+{% if app.user.favorites is empty %}
+    <p class="favoriteMissing">You don't have any anime or manga in favorites. Find your favorites <a href="{{path('manga')}}">mangas</a> and <a href="{{path('anime')}}">animes</a> and make sure to add them to your profile page ! </p>
+{% endif %}
+
+{% for favorites in app.user.favorites %}
+        <div class="card" style="width: 18rem;">
+            <img src="{{ favorites.image }}" class="card-img-top" alt="...">
+            <div class="card-body">
+                {% if favorites.type == 'Manga' %}
+                <a href="{{ path('favorite_manga', {'id': favorites.malId} )}}">
+                    <i class="fa fa-heart" aria-hidden="true"></i>
+                </a>
+                {% else %}
+                <a href="{{ path('favorite_anime', {'id': favorites.malId} )}}">
+                    <i class="fa fa-heart" aria-hidden="true"></i>
+                </a>
+                {% endif %}
+                
+                <h5 class="card-title">{{ favorites.title}}</h5>
+                
+                {% if favorites.synopsis == null %}
+                    {% if favorites.type == 'Manga' %}
+                    <p>There is no description for this manga</p>
+                    {% else %}
+                    <p>There is no description for this anime</p>
+                    {% endif %}
+                {% else %}
+                    <p class="card-text">{{ favorites.synopsis|slice(0,100) }}...</p>
+                {% endif %}
+                {% if favorites.type == 'Manga' %}
+                <a href="{{path('manga_details', {'id': favorites.malId})}}" class="btn btn-primary">Details</a>
+                {% else %}
+                <a href="{{path('anime_details', {'id': favorites.malId})}}" class="btn btn-primary">Details</a>
+                {% endif %}
+                
+            </div>
+        </div>
+    {% endfor %}
+</div>
 
 {% endblock %}
