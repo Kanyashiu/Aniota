@@ -25,13 +25,6 @@ class FavoriteController extends AbstractController
     public function favoriteManga(FavoriteRepository $favoriteRepository, EntityManagerInterface $em, HttpClientInterface $httpClient, $id)
     {
 
-        //! ================================================
-        $url = substr($_SERVER['HTTP_REFERER'], -6);
-        if ( $url == "search" ) {
-            return $this->redirectToRoute('search');
-        }
-        //! ================================================
-
         $result = $this->youShallNotPass->contentControlDetailsManga($id);
         if ($result) {
             throw $this->createNotFoundException("Error 404 Favorite Manga");
@@ -65,6 +58,11 @@ class FavoriteController extends AbstractController
         }
 
         $em->flush();
+
+        $url = substr($_SERVER['HTTP_REFERER'], -6);
+        if ( $url == "search" ) {
+            return $this->redirectToRoute('search');
+        }
 
         //sleep(2);
         return $this->redirect($_SERVER['HTTP_REFERER']);
@@ -108,6 +106,11 @@ class FavoriteController extends AbstractController
         }
 
         $em->flush();
+
+        $url = substr($_SERVER['HTTP_REFERER'], -6);
+        if ( $url == "search" ) {
+            return $this->redirectToRoute('search');
+        }
         
         //sleep(2);
         return $this->redirect($_SERVER['HTTP_REFERER']);

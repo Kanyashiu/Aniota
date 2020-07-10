@@ -19,22 +19,57 @@
             <img src="{{ result.image_url}}" class="card-img-top" alt="...">
             <div class="card-body">
                 {% if app.user %}
+                    
+                    
                     {% if result.chapters is defined %}
-                    <a href="{{ path('favorite_manga', {'id': result.mal_id} )}}">
-                        <i class="fa fa-heart-o" aria-hidden="true"></i>
-                    </a>
+                    
+                        {% set break = false %}
+                        
+                        {% for manga in app.user.favorites %}
+                            {% if manga.malId == result.mal_id %}
+                                <a href="{{ path('favorite_manga', {'id': result.mal_id} )}}">
+                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                </a>
+                                {% set break = true %}
+                            {% endif %}
+                        {% endfor %}
+                        
+                        {% if not break %}
+                            <a href="{{ path('favorite_manga', {'id': result.mal_id} )}}">
+                                <i class="fa fa-heart-o" aria-hidden="true"></i>
+                            </a>
+                        {% endif %}
                     {% else %}
-                    <a href="{{ path('favorite_anime', {'id': result.mal_id} )}}">
-                        <i class="fa fa-heart-o" aria-hidden="true"></i>
-                    </a>
+
+                        {% set break = false %}
+                        
+                        {% for anime in app.user.favorites %}
+                            {% if anime.malId == result.mal_id %}
+                                <a href="{{ path('favorite_anime', {'id': result.mal_id} )}}">
+                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                </a>
+                                {% set break = true %}
+                            {% endif %}
+                        {% endfor %}
+                        
+                        {% if not break %}
+                            <a href="{{ path('favorite_anime', {'id': result.mal_id} )}}">
+                                <i class="fa fa-heart-o" aria-hidden="true"></i>
+                            </a>
+                        {% endif %}
+                    
                     {% endif %}
                     
                 {% endif %}
                 <h5 class="card-title">{{ result.title }}</h5>
                 {% if result.synopsis == null %}
-                    <p>There is no description for this manga</p>
+                    {% if result.chapter is defined %}
+                        <p>There is no description for this manga</p>
+                    {% else %}
+                        <p>There is no description for this anime</p>
+                    {% endif %}
                 {% else %}
-                    <p class="card-text">{{ result.synopsis }}</p>
+                    <p class="card-text">{{ result.synopsis|slice(0,100) }}...</p>
                 {% endif %}
                 {% if result.chapters is defined %}
                 <a href="{{path('manga_details', {'id': result.mal_id })}}" class="btn btn-primary">Details</a>

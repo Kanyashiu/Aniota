@@ -73,13 +73,13 @@
 					
 				{% endif %}
 					
-					<h5 class="card-title">{{ manga['title']}}</h5>
+					<h5 class="card-title">{{ manga.title}}</h5>
 					{% if manga['synopsis'] == null %}
 						<p>There is no description for this manga</p>
 					{% else %}
-						<p class="card-text">{{ manga['synopsis']}}</p>
+						<p class="card-text">{{ manga.synopsis|slice(0,100) }}...</p>
 					{% endif %}
-					<a href="{{path('manga_details', {'id': manga['mal_id']})}}" class="btn btn-primary">Details</a>
+					<a href="{{path('manga_details', {'id': manga.mal_id })}}" class="btn btn-primary">Details</a>
 				</div>
 			</div>
 

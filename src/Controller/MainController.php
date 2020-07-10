@@ -6,16 +6,19 @@ use App\Repository\FavoriteRepository;
 use App\Services\YouShallNotPass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class MainController extends AbstractController
 {
     private $youShallNotPass;
+    private $session;
 
-    public function __construct(YouShallNotPass $youShallNotPass)
+    public function __construct(YouShallNotPass $youShallNotPass, SessionInterface $session)
     {
         $this->youShallNotPass = $youShallNotPass;
+        $this->session = $session;
     }
 
     /**
@@ -41,7 +44,13 @@ class MainController extends AbstractController
      */
     public function search(Request $request, HttpClientInterface $httpClient)
     {
+
         $data = ucwords(strtolower($request->request->get('search')));
+
+        if ($data == null) {
+            $data = $this->session->get('lastSearch');
+        }
+        $this->session->set('lastSearch', $data);
         
         sleep(2);
         $response = $httpClient->request('GET', 'https://api.jikan.moe/v3/search/manga?q='. $data .'&page=1');
