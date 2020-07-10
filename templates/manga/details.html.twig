@@ -14,6 +14,28 @@
 <div class="wrapper">
 
     <div class="presentationManga">
+
+    {% if app.user %}
+        
+        {% set break = false %}
+
+        {% for favorite in app.user.favorites %}
+            {% if favorite.malId == mangas.mal_id %}
+                <a href="{{ path('favorite_manga', {'id': mangas.mal_id} )}}">
+                    <i class="fa fa-heart fa-2x" aria-hidden="true"></i>
+                {% set break = true %}
+                </a>
+            {% endif %}
+        {% endfor %}
+
+        {% if not break %}
+            <a href="{{ path('favorite_manga', {'id': mangas.mal_id} )}}">
+                <i class="fa fa-heart-o fa-2x" aria-hidden="true"></i>
+            </a>
+        {% endif %}
+
+    {% endif %}
+
         <div class="imgManga">
             <img src="{{mangas.image_url}}" alt="">
         </div>

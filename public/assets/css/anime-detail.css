@@ -7,6 +7,16 @@ body {
     text-align: center;
 }
 
+.fa-2x {
+    position: relative;
+    top: -2rem;
+    left: 8rem;
+}
+
+.imageAnime {
+    margin-top: 1.5rem;
+}
+
 li {
     list-style: none;
 }

@@ -10,8 +10,29 @@
 
 <div class="wrapper">
     
-    <a class="title title-link col-12" href="{{ anime.url }}">{{ anime.title }}</a>
+    {% if app.user %}
+        
+        {% set break = false %}
+
+        {% for favorite in app.user.favorites %}
+            {% if favorite.malId == anime.mal_id %}
+                <a href="{{ path('favorite_anime', {'id': anime.mal_id} )}}">
+                    <i class="fa fa-heart fa-2x" aria-hidden="true"></i>
+                {% set break = true %}
+                </a>
+            {% endif %}
+        {% endfor %}
+
+        {% if not break %}
+            <a href="{{ path('favorite_anime', {'id': anime.mal_id} )}}">
+                <i class="fa fa-heart-o fa-2x" aria-hidden="true"></i>
+            </a>
+        {% endif %}
+
+    {% endif %}
+
     <img class="imageAnime" src="{{ anime.image_url }}" alt="{{ anime.title }}">
+    <a class="title title-link col-12" href="{{ anime.url }}">{{ anime.title }}</a>
     
     {% if anime.title_english is not empty %}
             <p class="title english col-12">English Title : {{ anime.title_english }}</p>
