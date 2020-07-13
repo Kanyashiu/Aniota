@@ -20,6 +20,15 @@ class YouShallNotPass
     //===========================
     // Anime method
     //===========================
+
+    /**
+     * This method is used to check with an array sent as argument ($arrayUsedToVerify) and a data to be found ($dataToFind), 
+     * that the data to be found is present in the array sent
+     * 
+     * @param array $arrayUsedToVerify
+     * @param string $dataToFind
+     * @return true|false
+     */
     public function typeControlBrowseAnime($arrayUsedToVerify, $dataToFind)
     {
         foreach ( $arrayUsedToVerify as $data ) {
@@ -39,6 +48,13 @@ class YouShallNotPass
         return false;
     }
 
+    /**
+     * This method is used to filter an array containing anime ( $dataArray ), 
+     * in order to exclude from this array the anime not authorized by our application
+     * 
+     * @param array $dataArray
+     * @return array
+     */
     public function contentControlBrowseAnime($dataArray) 
     {
         foreach ($dataArray as $index => $data) {
@@ -51,6 +67,13 @@ class YouShallNotPass
         return $dataArray;
     }
 
+    /**
+     * This method is used to check that an anime id sent as argument ($dataToFind), 
+     * is not present in our database in order to exclude unauthorized anime from our application
+     *
+     * @param string $dataToFind
+     * @return true|false
+     */
     public function contentControlDetailsAnime($dataToFind) {
         
         $animes = $this->excludeAnime->findByMalId($dataToFind);
@@ -64,6 +87,15 @@ class YouShallNotPass
     //===========================
     // Manga method
     //===========================
+
+    /**
+     * This method is used to check with an array sent as argument ($arrayUsedToVerify) and a data to be found ($dataToFind), 
+     * that the data to be found is present in the array sent
+     * 
+     * @param array $arrayUsedToVerify
+     * @param string $dataToFind
+     * @return true|false
+     */
     public function typeControlBrowseManga($arrayUsedToVerify, $dataToFind)
     {
         foreach ( $arrayUsedToVerify as $data ) {
@@ -83,6 +115,13 @@ class YouShallNotPass
         return false;
     }
 
+    /**
+     * This method is used to filter an array containing manga ( $dataArray ), 
+     * in order to exclude from this array the manga not authorized by our application
+     * 
+     * @param array $dataArray
+     * @return array
+     */
     public function contentControlBrowseManga($dataArray) 
     {
         foreach ($dataArray as $index => $data) {
@@ -95,6 +134,13 @@ class YouShallNotPass
         return $dataArray;
     }
 
+    /**
+     * This method is used to check that an manga id sent as argument ($dataToFind), 
+     * is not present in our database in order to exclude unauthorized manga from our application
+     *
+     * @param string $dataToFind
+     * @return true|false
+     */
     public function contentControlDetailsManga($dataToFind) {
         
         $manga = $this->excludeManga->findByMalId($dataToFind);

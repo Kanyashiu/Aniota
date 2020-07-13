@@ -2,8 +2,7 @@
 
 namespace App\Command;
 
-// Permet d'augmenter la mémoire ram alloué pour ce script seulement
-//! Possible d'optimiser le code ( commande avec argument ??? )
+// Allows to increase the allocated RAM for this script only
 ini_set('memory_limit','256M');
 
 use App\Entity\ExcludeAnime;
@@ -34,7 +33,7 @@ class DataAnimeCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Commande scraping anime data from jiken.moe API we want to exclude')
+            ->setDescription('Command scraping anime data from jiken.moe API we want to exclude')
         ;
     }
 
@@ -42,39 +41,40 @@ class DataAnimeCommand extends Command
     { 
         $io = new SymfonyStyle($input, $output);
 
-        // Chemin du fichier
+        // Path of the file containing the ids of the manga to exclude (based on the ids of the jikan api)
         $file = __DIR__ .'/../../public/assets/json/anime-genre_exclude.json';
 
-        // Je récupère le contenu
+        // I retrieve the contents of the file
         $current = file_get_contents($file);
 
-        // Je le décode afin d'avoir un tableau associatif
+        // I decode the file in order to have an array
         $currentDecode = json_decode($current, true);
 
-        // Cette variable me permettra de stocké tout les animes que je veut stocké en bdd
+        // This variable will allow me to store all the manga I want to store in database
         $animes = [];
-        // Cette variable me permet d'avoir un feedback pour la sauvegarde
+        
+        // This variable allows me to get feedback in the command terminal
         $nbAnimeTotal = 0;
         foreach ($currentDecode as $genre) {
 
-            // La page courante
+            // Actual page i want to scrap
             $page = 1;
-            // Le nombre d'anime totaux scrapé ( sert au feedback )
+            // The number of total anime scrapped ( used for feedback )
             $nbAnime = 0;
-            // L'id du genre scrapé
+            // The id of the anime
             $genre = $genre['id'];
 
             while(true) {
                 
-                // Requete vers l'api
+                // Request to the jikan api
                 $response = $this->client->request('GET', 'https://api.jikan.moe/v3/search/anime?genre=' . $genre . '&page='. $page .'');
-                // Je ralenti l'éxécution du code de 2 seconde afin d'éviter l'erreur 429
+                // I slow down the code execution by 2 seconds to avoid error 429 from the api
                 sleep(3);
-                // Je récupère le contenu
+                // I'm retrieving the contents
                 $content = $response->getContent();
                 $content = $response->toArray();
                 
-                // Condition qui permet de cassé la boucle while pour passer au genre suivant
+                // Condition that allows you to break the while loop to go to the next anime genre
                 if (empty($content['results'])) {
                     $io->success('Le genre n°'.$genre.' est complet, ' . ($page - 1) .' pages on été scrapé et stocké dans un tableau');
                     $io->success( $nbAnime . ' anime ont été rajouté pour le genre n°'.$genre);
@@ -82,37 +82,38 @@ class DataAnimeCommand extends Command
                     break;
                 }
                 
-                // Boucle pour crée les objets ExcludeAnime
+                // Loop for creating ExcludeAnime objects
                 foreach ($content['results'] as $data)
                 {
-                    // Permet l'ajout de manga qui n'existent pas en bdd
+                    // Allows the addition of anime that do not exist in bdd
                     if ($this->excludeAnimeRepository->findByMalId($data['mal_id']) != null)
                     {
                         continue;
                     }
 
+                    // Creation of ExcludeAnime objects and setting his properties
                     $anime = new ExcludeAnime();
                     $anime->setName($data['title']);
                     $anime->setMalId($data['mal_id']);
                     $anime->setPage($page);
                     $anime->setGenreId($genre);
 
-                    // Je push dans le tableau $animes
+                    // I push in the $animes array
                     $animes[] = $anime;
-                    // je met a null ma variable afin d'économiser de la ram
+                    // I set my variable to null in order to save RAM
                     $anime = null;
-                    // j'incrémente mes deux variable de feedback
+                    // I increment my two feedback variables
                     $nbAnime++;
                     $nbAnimeTotal++;
                 }
                 
-                // Je met a null mes variable afin d'économiser de la ram
+                // I set my variable to null in order to save RAM
                 $response = null;
                 $content = null;
                 
-                // Feedback
+                // Used for feedback
                 echo 'La page numéro '. $page .' du genre n°' .$genre. ' à bien été lu'. PHP_EOL;
-                // Incrémentation de $page pour passer à la page suivante à scrapé
+                // Incrementing the variable $page to move to the next page of the api
                 $page++;
 
                 // Ram feedback
@@ -124,46 +125,36 @@ class DataAnimeCommand extends Command
         $nbAnime = 1;
         foreach ($animes as $anime) {
                 
-            // persist consomment pas mal de mémoire ram
+            // Persisting my entities
             $this->em->persist($anime);
 
-            // je met a null ma variable afin d'économiser de la ram
+            // I set my variable to null in order to save RAM
             $anime = null;
 
-            // FeedBack
+            // Used for feedback
             echo $nbAnime . " / " . $nbAnimeTotal . " sauvegardé" . PHP_EOL;
             $nbAnime++;
         }
 
-        // flush consomment énormément de mémoire ram
+        // Save all my entities in database
         $this->em->flush();
 
         // Ram feedback
         $this->memoryUsed();
         
+        // Success message when my command is over
         $io->success( $nbAnimeTotal . ' animes exclus ont été rajouté en bdd');
 
         return 0;
     }
 
+    /**
+     * This method is used to have information about the RAM consuming
+     */
     public function memoryUsed()
     {
-        //https://stackoverflow.com/questions/10544779/how-can-i-clear-the-memory-while-running-a-long-php-script-tried-unset
-        //https://stackoverflow.com/questions/584960/whats-better-at-freeing-memory-with-php-unset-or-var-null
-        //https://stackoverflow.com/questions/2461762/force-freeing-memory-in-php
-        //https://stackoverflow.com/questions/46799995/php-how-to-clear-memory-in-a-long-loop
-        //https://stackoverflow.com/questions/18122369/how-to-free-memory-after-array-in-php-unset-and-null-seems-to-not-working
-        //https://browse-tutorials.com/tutorial/php-memory-management
-        //! TEST RAM
         echo 'Usage: ' . (memory_get_usage(true) / 1024 / 1024) . ' MB' . PHP_EOL;
         echo 'Peak: ' . (memory_get_peak_usage(true) / 1024 / 1024) . ' MB' . PHP_EOL;
         echo 'Memory limit: ' . str_replace('M', ' MB', ini_get('memory_limit')) . PHP_EOL;
-        //! TEST RAM
-        
-        //! Piste possible d'optimisation
-        //https://davidwalsh.name/increase-php-memory-limit-ini_set ( ini_set('memory_limit','16M'); ) <= Pas sur pour celle là
-        //https://www.php.net/manual/fr/book.info.php
-        //https://www.thegeekstuff.com/2014/04/optimize-php-code/
-        //https://blog.nicolashachet.com/developpement-php/optimiser-les-performances-de-son-code-php/
     }
 }
