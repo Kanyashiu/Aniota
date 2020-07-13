@@ -11,6 +11,7 @@
 <h1 class="titleAnimes">List of Animes</h1>
 <div class="dropdowns">
 
+{# This is a dropdown to select an anime by genre #}
   <div class="dropdown genre">
     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       Select Anime By Genre
@@ -22,6 +23,7 @@
     </div>
   </div>
 
+{# This is a dropdown to select an anime by rating #}
   <div class="dropdown rating">
     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       Select Anime By Rating
@@ -35,6 +37,8 @@
   </div>
 </div>
 
+{# We setted a next and previous button, if we are on the first page, only the next button will be display.
+  If we are on the second page or higher, the previous button will be display, it allows us to navigate throughout every pages #}
 {% if animes is not empty %}
   <div class="pagination {{ page > 1 ? '' : 'pagination2' }}">
       {% if page > "1" %}
@@ -46,12 +50,14 @@
 
 <div class="wrapper {{ animes is empty ? 'wrapper2' : '' }}">
     
+    {# We make a loop on our anime content to display them to our view #}
     {% for anime in animes %}
 
         <div class="card" style="width: 18rem;">
             <img src="{{ anime.image_url}}" class="card-img-top" alt="...">
             <div class="card-body">
                 
+                {# We check if there is a logged user, and we do the favorite treatment (FavoriteController) #}
                 {% if app.user %}
                   
                   {% set break = false %}
@@ -88,6 +94,9 @@
     {% endfor %}
 </div>
     
+    {# We check if our animes is empty, if it's the case, we set a small warning message with a back to animes list button.
+      Otherwise, we set a next and previous button, if we are on the first page, only the next button will be display.
+      If we are on the second page or higher, the previous button will be display, it allows us to navigate throughout every pages #}
     {% if animes is empty %}
       <div class="empty-anime">
         <p class="sorryMsg">Sorry there are no more animes for this category.</p> 
@@ -101,8 +110,5 @@
             <a href="{{ path('anime', {'page': page + 1, 'rated': rated, 'genre': genre} )}}" class="btn btn-info next">Next Page</a>
         </div>
     {% endif %}
-
-
-
 
 {% endblock %}

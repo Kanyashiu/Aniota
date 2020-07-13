@@ -15,6 +15,7 @@
 
     <div class="presentationManga">
 
+    {# We check if there is a logged user, and we do the favorite treatment (FavoriteController) #}
     {% if app.user %}
         
         {% set break = false %}
@@ -36,6 +37,7 @@
 
     {% endif %}
 
+    {# We display all the contents we have about one manga, thanks to his id #}
         <div class="imgManga">
             <img src="{{mangas.image_url}}" alt="">
         </div>

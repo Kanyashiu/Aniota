@@ -14,12 +14,12 @@
 <p class="resultsFound"><span>{{results|length}}</span> results found</p>
 <div class="wrapper">
     {% for result in results %}
-        {# {{dump(result)}} #}
         <div class="card" style="width: 18rem;">
             <img src="{{ result.image_url}}" class="card-img-top" alt="...">
             <div class="card-body">
+
+            {# We check if the user is logged, so we can have our treatment for the favorites #}
                 {% if app.user %}
-                    
                     
                     {% if result.chapters is defined %}
                     
@@ -90,7 +90,8 @@
     {% endif %}
     </div>
 
-<div class="homepageButton">
-    <a href="{{path('home')}}" class="btn btn-info next">Back to homepage</a>
-</div>
+    <div class="homepageButton">
+        <a href="{{path('home')}}" class="btn btn-info next">Back to homepage</a>
+    </div>
+
 {% endblock %}

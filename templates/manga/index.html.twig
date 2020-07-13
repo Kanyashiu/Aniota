@@ -14,6 +14,7 @@
 	<h1 class="titleMangas">List of Mangas</h1>
 	<div class="dropdowns">
 
+		{# This is a dropdown to select a manga by genre #}
 		<div class="dropdown-genre">
 			<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				Select Manga By Genre
@@ -25,6 +26,7 @@
 			</div>
 		</div>
 
+		{# This is a dropdown to select a manga by order #}
 		<div class="dropdown-sort">
 			<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				Select Manga By Order
@@ -37,6 +39,8 @@
 
 	</div>
 
+	{# We setted a next and previous button, if we are on the first page, only the next button will be display.
+  	If we are on the second page or higher, the previous button will be display, it allows us to navigate throughout every pages #}
 	{% if mangas is not empty %}
 		<div class="pagination {{ page > 1 ? '' : 'pagination2' }}">
 			{% if page > "1" %}
@@ -47,11 +51,13 @@
 	{% endif %}
 
 	<div class="wrapper">
+		{# We make a loop on our manga content to display them to our view #}
 		{% for manga in mangas %}
 			<div class="card" style="width: 18rem;">
 				<img src="{{ manga['image_url']}}" class="card-img-top" alt="...">
 				<div class="card-body">
-					
+				
+				{# We check if there is a logged user, and we do the favorite treatment (FavoriteController) #}
 				{% if app.user %}
 					
 					{% set break = false %}
@@ -86,6 +92,9 @@
 		{% endfor %}
 	</div>
 
+		{# We check if our mangas is empty, if it's the case, we set a small warning message with a back to mangas list button.
+		Otherwise, we set a next and previous button, if we are on the first page, only the next button will be display.
+		If we are on the second page or higher, the previous button will be display, it allows us to navigate throughout every pages #}
 		{% if mangas is empty %}
 			<div class="empty-manga">
 				<p class="sorryMsg">Sorry there are no more mangas for this category.</p>

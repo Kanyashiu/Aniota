@@ -20,6 +20,7 @@
     <p class="favoriteMissing">You don't have any anime or manga in favorites. Find your favorites <a href="{{path('manga')}}">mangas</a> and <a href="{{path('anime')}}">animes</a> and make sure to add them to your profile page ! </p>
 {% endif %}
 
+{# We loop on the user's favorites in order to display them on his profile page #}
 {% for favorites in app.user.favorites %}
         <div class="card" style="width: 18rem;">
             <img src="{{ favorites.image }}" class="card-img-top" alt="...">
