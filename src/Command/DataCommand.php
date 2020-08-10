@@ -46,24 +46,23 @@ class DataCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     { 
         $io = new SymfonyStyle($input, $output);
-        // TODO
-        // comments
+
+        // I get the argument dataType
         $dataType = strtolower($input->getArgument('dataType'));
 
-        // comments
+        // I check that $dataType contains "anime" or "manga" otherwise I display an error message and return one
         if ($dataType != 'anime' && $dataType != 'manga' ) {
             $io->error('Your argument need to be "manga" or "anime"');
 
             return 1;
         }
 
-        // comments
+        // This variable will allow me to instantiate an Exclude anime/manga object
         $excludeObject = 'App\Entity\Exclude' . ucfirst($dataType);
 
-        // comments
+        // This variable will allow me to use anime or manga repository
         $excludeRepository = 'exclude' . ucfirst($dataType) . 'Repository';
 
-        // TODO END
         // Path of the file containing the ids of the manga/anime to exclude (based on the ids of the jikan api)
         $file = __DIR__ .'/../../public/assets/json/' . $dataType . '-genre_exclude.json';
 
