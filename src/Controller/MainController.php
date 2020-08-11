@@ -73,7 +73,7 @@ class MainController extends AbstractController
         $mangas = $content['results'];
 
         // We call our Service in order to do his treatment on the results
-        $mangas = $this->youShallNotPass->contentControlBrowseManga($mangas);
+        $mangas = $this->youShallNotPass->contentControlBrowse($mangas, YouShallNotPass::MANGA);
         
         //--------
 
@@ -92,7 +92,7 @@ class MainController extends AbstractController
         $animes = $content['results'];
 
         // We call our Service in order to do his treatment on the results
-        $animes = $this->youShallNotPass->contentControlBrowseAnime($animes);
+        $animes = $this->youShallNotPass->contentControlBrowse($animes, YouShallNotPass::ANIME);
 
         //--------
 

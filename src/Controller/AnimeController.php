@@ -48,7 +48,7 @@ class AnimeController extends AbstractController
         if (isset( $_GET['rated']) && !empty( $_GET['rated'])) {
             $rating = $_GET['rated'];
             
-            $result = $this->youShallNotPass->typeControlBrowseManga($animeRating, $rating);
+            $result = $this->youShallNotPass->typeControlBrowse($animeRating, $rating);
             if ($result) {
                 throw $this->createNotFoundException("Error 404 Browse Anime ( rated '".$rating."' )");
             }
@@ -59,7 +59,7 @@ class AnimeController extends AbstractController
             
             $genre = $_GET['genre'];
 
-            $result = $this->youShallNotPass->typeControlBrowseManga($animeGenre, $genre);
+            $result = $this->youShallNotPass->typeControlBrowse($animeGenre, $genre);
             if ($result) {
                 throw $this->createNotFoundException("Error 404 Browse Anime ( genre '".$genre."' )");
             }
@@ -78,7 +78,7 @@ class AnimeController extends AbstractController
         $animes = $response->toArray();
 
         // We call our Service in order to do his treatment on the results
-        $animes = $this->youShallNotPass->contentControlBrowseAnime($animes['results']);
+        $animes = $this->youShallNotPass->contentControlBrowse($animes['results'], YouShallNotPass::ANIME);
 
         return $this->render('anime/index.html.twig', [
             'animes' => $animes,
@@ -97,7 +97,7 @@ class AnimeController extends AbstractController
     public function details($id)
     {
         // Same treatment as for the browse method
-        $result = $this->youShallNotPass->contentControlDetailsAnime($id);
+        $result = $this->youShallNotPass->contentControlDetails($id, YouShallNotPass::ANIME);
         if ($result) {
             throw $this->createNotFoundException("Error 404 Details Anime");
         }

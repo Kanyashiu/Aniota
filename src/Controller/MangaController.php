@@ -56,7 +56,7 @@ class MangaController extends AbstractController
 
                 $sort = $_GET['sort'] ?? 'asc';
         
-                    $result = $this->youShallNotPass->typeControlBrowseManga($mangaGenre, $genre);
+                    $result = $this->youShallNotPass->typeControlBrowse($mangaGenre, $genre);
                     if ($result) {
                         throw $this->createNotFoundException("Error 404 Browse Manga ( genre '".$genre."' )");
                     }
@@ -77,7 +77,7 @@ class MangaController extends AbstractController
         $results = $mangas['results'];
 
         // We call our Service in order to do his treatment on the results
-        $results = $this->youShallNotPass->contentControlBrowseManga($results);
+        $results = $this->youShallNotPass->contentControlBrowse($results, YouShallNotPass::MANGA);
 
         return $this->render('manga/index.html.twig', [
             'mangas' => $results,
@@ -95,7 +95,7 @@ class MangaController extends AbstractController
     public function details(HttpClientInterface $httpClient, $id)
     {
         // Same treatment as for the browse method
-        $result = $this->youShallNotPass->contentControlDetailsManga($id);
+        $result = $this->youShallNotPass->contentControlDetails($id, YouShallNotPass::MANGA);
         if ($result) {
             throw $this->createNotFoundException("Error 404 Details Manga");
         }

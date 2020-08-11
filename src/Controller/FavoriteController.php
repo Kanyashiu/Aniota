@@ -26,7 +26,7 @@ class FavoriteController extends AbstractController
     public function favoriteManga(FavoriteRepository $favoriteRepository, EntityManagerInterface $em, HttpClientInterface $httpClient, $id)
     {
         // We use our YouShallNotPass service in order to filter an inappropriate manga
-        $result = $this->youShallNotPass->contentControlDetailsManga($id);
+        $result = $this->youShallNotPass->contentControlDetails($id, YouShallNotPass::MANGA);
         if ($result) {
             throw $this->createNotFoundException("Error 404 Favorite Manga");
         }
@@ -87,7 +87,7 @@ class FavoriteController extends AbstractController
     public function favoriteAnime(FavoriteRepository $favoriteRepository, EntityManagerInterface $em, HttpClientInterface $httpClient, $id) {
         
         // We use our YouShallNotPass service in order to filter an inappropriate anime
-        $result = $this->youShallNotPass->contentControlDetailsAnime($id);
+        $result = $this->youShallNotPass->contentControlDetails($id, YouShallNotPass::ANIME);
         if ($result) {
             throw $this->createNotFoundException("Error 404 Favorite Anime");
         }
