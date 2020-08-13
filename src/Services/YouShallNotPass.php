@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Repository\ExcludeAnimeRepository;
 use App\Repository\ExcludeMangaRepository;
-use phpDocumentor\Reflection\Types\Self_;
 
 class YouShallNotPass
 {

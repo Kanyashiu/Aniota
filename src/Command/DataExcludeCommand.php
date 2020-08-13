@@ -17,9 +17,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class DataCommand extends Command
+class DataExcludeCommand extends Command
 {
-    protected static $defaultName = 'data:command';
+    protected static $defaultName = 'data:exclude';
 
     private $client;
     private $em;
